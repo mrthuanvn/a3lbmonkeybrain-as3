@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application
+	xmlns:flexui="flexunit.flexui.*"
+	xmlns:mx="http://www.adobe.com/2006/mxml">
+	
+	<mx:Script>
+		<![CDATA[
+			import a3lbmonkeybrain.brainstem.assert.*;
+			import a3lbmonkeybrain.brainstem.collections.*;
+			import a3lbmonkeybrain.brainstem.colors.*;
+			import a3lbmonkeybrain.brainstem.core.*;
+			import a3lbmonkeybrain.brainstem.display.*;
+			import a3lbmonkeybrain.brainstem.filter.*;
+			import a3lbmonkeybrain.brainstem.math.*;
+			import a3lbmonkeybrain.brainstem.net.*;
+			import a3lbmonkeybrain.brainstem.relate.*;
+			import a3lbmonkeybrain.brainstem.strings.*;
+			import a3lbmonkeybrain.brainstem.strings.en.*;
+			import a3lbmonkeybrain.brainstem.w3c.xml.*;
+			import a3lbmonkeybrain.calculia.collections.domains.*;
+			import a3lbmonkeybrain.calculia.collections.operations.*;
+			import a3lbmonkeybrain.calculia.collections.graphs.*;
+			import a3lbmonkeybrain.calculia.core.*;
+			import a3lbmonkeybrain.calculia.geom.*;
+			import a3lbmonkeybrain.calculia.ui.mathml.*;
+			import a3lbmonkeybrain.hippocampus.domain.*;
+			import a3lbmonkeybrain.hippocampus.text.*;
+			import a3lbmonkeybrain.hippocampus.ui.forms.*;
+			import a3lbmonkeybrain.hippocampus.ui.search.*;
+			import a3lbmonkeybrain.hippocampus.upload.*;
+			import a3lbmonkeybrain.hippocampus.services.*;
+			import a3lbmonkeybrain.hippocampus.validate.*;
+			import a3lbmonkeybrain.motorcortex.effects.*;
+			import a3lbmonkeybrain.synapse.email.*;
+			import a3lbmonkeybrain.synapse.streamClient.*;
+			import a3lbmonkeybrain.visualcortex.alerts.*;
+			import a3lbmonkeybrain.visualcortex.xhtml.*;
+			
+			import flexunit.framework.Test;
+			import flexunit.framework.TestSuite;
+			
+			public static function get brainstemTest():Test
+			{
+				EntityListValidator;
+				const suite:TestSuite = new TestSuite();
+				suite.addTestSuite(ArrayListTest);
+				suite.addTestSuite(AssertTest);
+				suite.addTestSuite(BrainstemTest);
+				suite.addTestSuite(ColorsTest);
+				suite.addTestSuite(DisplayTest);
+				suite.addTestSuite(EmptySetTest);
+				suite.addTestSuite(EqualityTest);
+				suite.addTestSuite(FilterTest);
+				suite.addTestSuite(HashSetTest);
+				suite.addTestSuite(MathTest);
+				suite.addTestSuite(OrderTest);
+				suite.addTestSuite(PropertyTest);
+				suite.addTestSuite(StringsEnTest);
+				suite.addTestSuite(StringsTest);
+				suite.addTestSuite(URLRequestHeaderUtilTest);
+				suite.addTestSuite(URLRequestUtilTest);
+				suite.addTestSuite(URLVariablesUtilTest);
+				suite.addTestSuite(XMLTest);
+				return suite;
+			}
+			public static function get calculiaTest():Test
+			{
+				Reals;
+				AbstractOperation;
+				const suite:TestSuite = new TestSuite();
+				suite.addTestSuite(AngleTest);
+				suite.addTestSuite(CalcTableTest);
+				suite.addTestSuite(MathMLComponentTest);
+				suite.addTestSuite(NetworkTest);
+				return suite;
+			}
+			public static function get hippocampusTest():Test
+			{
+				AlertResponder;
+				Services;
+				EntitySearcher;
+				PersistentRef;
+				EntityService;
+				EntitySearcherTest;
+				const suite:TestSuite = new TestSuite();
+				suite.addTestSuite(DataInputTest);
+				suite.addTestSuite(DescriptionTest);
+				suite.addTestSuite(FormFactoryTest);
+				suite.addTestSuite(PersistentTest);
+				suite.addTestSuite(ReadersTest);
+				suite.addTestSuite(WritersTest);
+				EntityUploader;
+				return suite;
+			}
+			public static function get motorCortexTest():Test
+			{
+				const suite:TestSuite = new TestSuite();
+				suite.addTestSuite(MotionBlurTest);
+				return suite;
+			}
+			public static function get synapseTest():Test
+			{
+				const suite:TestSuite = new TestSuite();
+				suite.addTestSuite(EmailTest);
+				suite.addTestSuite(NetStreamClientTest);
+				return suite;
+			}
+			public static function get visualCortexTest():Test
+			{
+				XHTMLColumn;
+				XHTMLEditor;
+				const suite:TestSuite = new TestSuite();
+				return suite;
+			}
+			public static function get test():Test
+			{
+				var suite:TestSuite = new TestSuite();
+				suite.addTest(brainstemTest);
+				//suite.addTest(calculiaTest);
+				//suite.addTest(hippocampusTest);
+				//suite.addTest(motorCortexTest);
+				//suite.addTest(synapseTest);
+				//suite.addTest(visualCortexTest);
+				return suite;
+			}
+		]]>
+	</mx:Script>
+	
+	<flexui:TestRunnerBase id="testRunner"
+		width="100%" height="100%"
+		test="{test}"
+		creationComplete="testRunner.startTest()"/>
+	
+</mx:Application>

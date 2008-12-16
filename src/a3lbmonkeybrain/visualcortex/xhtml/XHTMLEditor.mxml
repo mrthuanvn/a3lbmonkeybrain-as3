@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:RichTextEditor
+	change="updateXHTML()"
+	click="if (event.target != this) dispatchEvent(new Event(Event.CHANGE))"
+	creationComplete="onCreationComplete()"
+	defaultLinkProtocol="http://"
+	xmlns:mx="http://www.adobe.com/2006/mxml">
+	
+	<mx:Script>
+		<![CDATA[
+			import a3lbmonkeybrain.brainstem.w3c.xml.extractText;
+			
+			private var _valid:Boolean = true;
+			private var _xhtml:XML = <span/>;
+			
+			[Bindable(event = "change")]
+			public function get valid():Boolean
+			{
+				return _valid;
+			}
+			[Bindable(event = "change")]
+			public function get plainText():String
+			{
+				return extractText(_xhtml);
+			}
+			[Bindable(event = "change")]
+			public function get xhtml():XML
+			{
+				return _xhtml;
+			}
+			public function set xhtml(value:XML):void
+			{
+				XML.prettyPrinting = false;
+				if (_xhtml.toXMLString() == value.toXMLString())
+					return;
+				_xhtml = value.copy();
+				htmlText = value.toXMLString();
+			}
+			[Bindable(event = "change")]
+			public function get xhtmlString():String
+			{
+				XML.prettyPrinting = false;
+				return _xhtml.toXMLString();
+			}
+			private function onCreationComplete():void
+			{
+				remove(alignButtons);
+				remove(colorPicker);
+				remove(fontFamilyCombo);
+				remove(fontSizeCombo);
+			}
+			private static function remove(object:DisplayObject):void
+			{
+				if (object.parent != null)
+					object.parent.removeChild(object);
+			}
+			private function updateXHTML():void
+			{
+				try
+				{
+					_xhtml = XHTMLUtil.htmlTextToXHTML("<HTML>" + htmlText + "</HTML>");
+					_valid = true;
+				}
+				catch (e:TypeError)
+				{
+					trace("[WARNING]", "Invalid HTML text:", htmlText);
+					_xhtml = <span/>;
+					_valid = false;
+				}
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:boldToolTip>Click here to create boldface text.</mx:boldToolTip>
+	<mx:bulletToolTip>Click here to create a bulleted list.</mx:bulletToolTip>
+	<mx:italicToolTip>Click here to create italicized text.</mx:italicToolTip>
+	<mx:linkToolTip>Enter a web address here to create a hyperlink in the text.</mx:linkToolTip>
+	<mx:underlineToolTip>Click here to create underlined text.</mx:underlineToolTip>
+	
+</mx:RichTextEditor>

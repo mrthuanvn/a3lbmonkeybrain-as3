@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Three-Pound Monkey Brain" default="build" basedir=".">
+
+	<property file="build.properties"/>
+	
+	<property file="build.local.properties"/>
+	
+	<property name="FLEX_HOME" value="${flex-sdk.dir}"/>
+	
+	<taskdef resource="flexTasks.tasks" classpath="${flex-sdk.dir}/ant/lib/flexTasks.jar" />
+	
+	<target name="build" description="All build tasks.">
+        <antcall target="asdoc" description="Build documentation."/>
+        <antcall target="swc" description="Build SWC library files."/>
+    </target>
+	
+	<target name="asdoc">
+  		<delete dir="${asdoc.dir}" failOnError="true" includeEmptyDirs="true"/>
+  		<echo>Documentation directory cleared.</echo>
+  		<exec executable="${flex-sdk.dir}/bin/asdoc${executable.ext}" dir="${base.dir}">
+			<arg line="-doc-sources ${flex-src.dir} ${flex-unit-src.dir}"/>
+			<arg line="-exclude-classes a3lbmonkeybrain_test"/>
+			<arg line="-footer 'Copyright 2008 - T. Michael Keesey'" />
+			<arg line="-keep-xml" />
+			<arg line="-left-frameset-width 256"/>
+			<arg line="-library-path '${flex-libs.dir}'"/>
+			<arg line="-library-path '${flex-sdk.dir}/frameworks/libs'"/>
+			<arg line="-library-path '${flex-sdk.dir}/frameworks/locale/en_US'"/>
+			<!--arg line="-namespace http://a3lbmonkeybrain.com/2008/as3/view ${flex-config.dir}/component-manifest.xml"/-->
+			<arg line="-main-title 'Three-Pound Monkey Brain Open-Source ActionScript 3.0 Documentation'"/>
+			<arg line="-output ${asdoc.dir}"/>
+			<arg line="-package a3lbmonkeybrain.brainstem.assert 'Functions and errors for making assertions.'"/>
+			<arg line="-package a3lbmonkeybrain.brainstem.collections 'Classes for collections of objects (sets, lists, etc.).'"/>
+			<arg line="-package a3lbmonkeybrain.brainstem.colors 'Functions for working with RGB and ARGB colors.'"/>
+			<arg line="-package a3lbmonkeybrain.brainstem.core 'General-purpose classes and functions.'"/>
+			<arg line="-package a3lbmonkeybrain.brainstem.display 'Functions for working with the display object hierarchy.'"/>
+			<arg line="-package a3lbmonkeybrain.brainstem.errors 'Commonly-used errors.'"/>
+			<arg line="-package a3lbmonkeybrain.brainstem.filter 'Utilities for filtering collections of data.'"/>
+			<arg line="-package a3lbmonkeybrain.brainstem.math 'Mathematical functions.'"/>
+			<arg line="-package a3lbmonkeybrain.brainstem.metadata 'Utilities for reading custom metdata.'"/>
+			<arg line="-package a3lbmonkeybrain.brainstem.net 'Utility classes for URL-related objects.'"/>
+			<arg line="-package a3lbmonkeybrain.brainstem.relate 'Basic object relations (equivalence and order).'"/>
+			<arg line="-package a3lbmonkeybrain.brainstem.resolve 'Classes for translating XML.'"/>
+			<arg line="-package a3lbmonkeybrain.brainstem.strings 'String-processing functions.'"/>
+			<arg line="-package a3lbmonkeybrain.brainstem.strings.en 'String-processing functions specific to English.'"/>
+			<arg line="-package a3lbmonkeybrain.brainstem.resolve 'Classes for translating XML.'"/>
+			<arg line="-package a3lbmonkeybrain.brainstem.test 'Utilities for unit tests.'"/>
+			<arg line="-package a3lbmonkeybrain.brainstem.w3c.html 'Utilities for HTML.'"/>
+			<arg line="-package a3lbmonkeybrain.brainstem.w3c.mathml 'Utilities for MathML.'"/>
+			<arg line="-package a3lbmonkeybrain.brainstem.w3c.xhtml 'Utilities for XHTML.'"/>
+			<arg line="-package a3lbmonkeybrain.brainstem.w3c.xlink 'Utilities for XLink.'"/>
+			<arg line="-package a3lbmonkeybrain.brainstem.w3c.xml 'Utilities for XML.'"/>
+			<arg line="-package a3lbmonkeybrain.calculia.collections.domains 'Sets representing numerical domains (integers, reals, complexes, etc.).'"/>
+			<arg line="-package a3lbmonkeybrain.calculia.collections.graphs 'Classes for creating mathematical graphs (including networks).'"/>
+			<arg line="-package a3lbmonkeybrain.calculia.collections.operations 'Sets representing mathematical operations.'"/>
+			<arg line="-package a3lbmonkeybrain.calculia.collections.sets 'Extended types of set.'"/>
+			<arg line="-package a3lbmonkeybrain.calculia.core 'Core classes for mathematical calculation.'"/>
+			<arg line="-package a3lbmonkeybrain.calculia.errors 'Mathematical errors.'"/>
+			<arg line="-package a3lbmonkeybrain.calculia.geom 'Functionality for geometric calculations.'"/>
+			<arg line="-package a3lbmonkeybrain.calculia.mathml 'Classes for handling MathML-Content.'"/>
+			<arg line="-package a3lbmonkeybrain.calculia.numbers 'Extended types of number.'"/>
+			<arg line="-package a3lbmonkeybrain.calculia.ui.mathml 'Components for displaying MathML-Content formulas.'"/>
+			<arg line="-package a3lbmonkeybrain.hippocampus.domain 'Basic classes for persistent entities'"/>
+			<arg line="-package a3lbmonkeybrain.hippocampus.services 'Basic classes for remote services for CRUD operations.'"/>
+			<arg line="-package a3lbmonkeybrain.hippocampus.text 'Classes for describing, labeling, reading, and writing entities.'"/>
+			<arg line="-package a3lbmonkeybrain.hippocampus.translate 'Classes for converting text into entities and entities into text.'"/>
+			<arg line="-package a3lbmonkeybrain.hippocampus.ui.forms 'Classes for generating forms that allow the editing of entities.'"/>
+			<arg line="-package a3lbmonkeybrain.hippocampus.ui.search 'Components for persistent entity searches.'"/>
+			<arg line="-package a3lbmonkeybrain.hippocampus.upload 'Components for uploading persistent entities.'"/>
+			<arg line="-package a3lbmonkeybrain.hippocampus.validate 'Validation classes that build upon Flex validators.'"/>
+			<arg line="-package a3lbmonkeybrain.motorcortex.effects 'Animation effects.'"/>
+			<!--arg line="-package a3lbmonkeybrain.synapse.load.assets 'Provides functionality for dealing with external assets.'"/>
+			<arg line="-package a3lbmonkeybrain.synapse.load.data 'Allows the manipulation of loaded data.'"/>
+			<arg line="-package a3lbmonkeybrain.synapse.load.display 'Classes related to loading and unloading display objects.'"/>
+			<arg line="-package a3lbmonkeybrain.synapse.load.read 'Allows custom filesize reading.'"/>
+			<arg line="-package a3lbmonkeybrain.synapse.load.track 'Tracks loading for all types of files.'"/-->
+			<arg line="-package a3lbmonkeybrain.synapse.email 'Creates email (mailto:) links.'"/>
+			<arg line="-package a3lbmonkeybrain.synapse.streamClient 'Provides an elegant interface for net stream clients.'"/>
+			<arg line="-package a3lbmonkeybrain.visualcortex.alerts 'Utilities for creating alerts when errors occur.'"/>
+			<arg line="-package a3lbmonkeybrain.visualcortex.keyboard 'Classes for representing keystrokes.'"/>
+			<arg line="-package a3lbmonkeybrain.visualcortex.menus 'Classes that work with Flex menus.'"/>
+			<arg line="-package a3lbmonkeybrain.visualcortex.xhtml 'Classes that handle HTML and XHTML.'"/>
+			<arg line="-source-path ${flex-src.dir}"/>
+			<arg line="-window-title 'Three-Pound Monkey Brain (AS3)'" />
+		</exec>
+  		<echo>Documentation created.</echo>
+	</target>
+	
+	<target name="swc">
+        <antcall target="swc-all" description="Build SWC library file."/>
+        <antcall target="swc-brainstem" description="Build Brainstem SWC library file."/>
+        <antcall target="swc-calculia" description="Build Calculia SWC library file."/>
+        <antcall target="swc-hippocampus" description="Build Hippocampus SWC library file."/>
+        <antcall target="swc-synapse" description="Build Synapse SWC library file."/>
+  		<echo>All SWC files created.</echo>
+	</target>
+	
+	<target name="swc-all">
+  		<compc output="${flex-lib-output.dir}/3lbmonkeybrain.swc">
+            <source-path path-element="${flex-src.dir}"/>
+            <include-sources dir="${flex-src.dir}/a3lbmonkeybrain/brainstem" includes="*" />
+            <include-sources dir="${flex-src.dir}/a3lbmonkeybrain/calculia" includes="*" />
+            <include-sources dir="${flex-src.dir}/a3lbmonkeybrain/hippocampus/domain" includes="*" />
+            <include-sources dir="${flex-src.dir}/a3lbmonkeybrain/hippocampus/translate" includes="*" />
+            <include-sources dir="${flex-src.dir}/a3lbmonkeybrain/hippocampus/ui/forms" includes="*" />
+            <include-sources dir="${flex-src.dir}/a3lbmonkeybrain/hippocampus/ui/search" includes="*" />
+            <include-sources dir="${flex-src.dir}/a3lbmonkeybrain/hippocampus/upload" includes="*" />
+            <include-sources dir="${flex-src.dir}/a3lbmonkeybrain/hippocampus/validate" includes="*" />
+            <include-sources dir="${flex-src.dir}/a3lbmonkeybrain/synapse/streamClient" includes="*" />
+            <include-sources dir="${flex-src.dir}/a3lbmonkeybrain/synapse/email" includes="*" />
+            <include-sources dir="${flex-src.dir}/a3lbmonkeybrain/visualcortex" includes="*" />
+        </compc>
+  		<echo>SWC file created.</echo>
+	</target>
+	
+	<target name="swc-brainstem">
+  		<compc output="${flex-lib-output.dir}/3lbmonkeybrain-brainstem.swc">
+			<!--include-libraries file="${flex-libs.dir}/" /-->
+            <source-path path-element="${flex-src.dir}"/>
+            <include-sources dir="${flex-src.dir}/a3lbmonkeybrain/brainstem" includes="*" />
+        </compc>
+  		<echo>Brainstem SWC file created.</echo>
+	</target>
+	
+	<target name="swc-calculia">
+  		<compc output="${flex-lib-output.dir}/3lbmonkeybrain-calculia.swc">
+			<!--include-libraries file="${flex-libs.dir}/" /-->
+            <source-path path-element="${flex-src.dir}"/>
+            <include-sources dir="${flex-src.dir}/a3lbmonkeybrain/calculia" includes="*" />
+        </compc>
+  		<echo>Calculia SWC file created.</echo>
+	</target>
+		
+	<target name="swc-hippocampus">
+  		<compc output="${flex-lib-output.dir}/3lbmonkeybrain-hippocampus.swc">
+			<!--include-libraries file="${flex-libs.dir}/" /-->
+            <source-path path-element="${flex-src.dir}"/>
+            <include-sources dir="${flex-src.dir}/a3lbmonkeybrain/hippocampus/domain" includes="*" />
+            <include-sources dir="${flex-src.dir}/a3lbmonkeybrain/hippocampus/translate" includes="*" />
+            <include-sources dir="${flex-src.dir}/a3lbmonkeybrain/hippocampus/ui/forms" includes="*" />
+            <include-sources dir="${flex-src.dir}/a3lbmonkeybrain/hippocampus/ui/search" includes="*" />
+            <include-sources dir="${flex-src.dir}/a3lbmonkeybrain/hippocampus/upload" includes="*" />
+            <include-sources dir="${flex-src.dir}/a3lbmonkeybrain/hippocampus/validate" includes="*" />
+        </compc>
+  		<echo>Hippocampus SWC file created.</echo>
+	</target>
+		
+	<target name="swc-synapse">
+ 		<compc output="${flex-lib-output.dir}/3lbmonkeybrain-synapse.swc">
+			<!--include-libraries file="${flex-libs.dir}/" /-->
+            <source-path path-element="${flex-src.dir}"/>
+            <include-sources dir="${flex-src.dir}/a3lbmonkeybrain/synapse/streamClient" includes="*" />
+            <include-sources dir="${flex-src.dir}/a3lbmonkeybrain/synapse/email" includes="*" />
+        </compc>
+  		<echo>Synapse SWC file created.</echo>
+	</target>
+		
+</project>
+
