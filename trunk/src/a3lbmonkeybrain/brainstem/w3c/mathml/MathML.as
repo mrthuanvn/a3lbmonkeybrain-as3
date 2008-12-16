@@ -1,0 +1,79 @@
+package a3lbmonkeybrain.brainstem.w3c.mathml
+{
+	public final class MathML
+	{
+		public static const NAMESPACE:Namespace = new Namespace("http://www.w3.org/1998/Math/MathML");
+		
+		public static const ABS:QName = new QName(NAMESPACE, "abs");
+		public static const AND:QName = new QName(NAMESPACE, "and");
+		public static const APPLY:QName = new QName(NAMESPACE, "apply");
+		public static const ARCCOS:QName = new QName(NAMESPACE, "arccos");
+		public static const ARCCOT:QName = new QName(NAMESPACE, "arccot");
+		public static const ARCCSC:QName = new QName(NAMESPACE, "arccsc");
+		public static const ARCSEC:QName = new QName(NAMESPACE, "arcsec");
+		public static const ARCSIN:QName = new QName(NAMESPACE, "arcsin");
+		public static const ARCTAN:QName = new QName(NAMESPACE, "arctan");
+		public static const BVAR:QName = new QName(NAMESPACE, "bvar");
+		public static const CARD:QName = new QName(NAMESPACE, "card");
+		public static const CARTESIANPRODUCT:QName = new QName(NAMESPACE, "cartesianproduct");
+		public static const CEILING:QName = new QName(NAMESPACE, "ceiling");
+		public static const CI:QName = new QName(NAMESPACE, "ci");
+		public static const CN:QName = new QName(NAMESPACE, "cn");
+		public static const COMPLEXES:QName = new QName(NAMESPACE, "complexes");
+		public static const COMPOSE:QName = new QName(NAMESPACE, "compose");
+		public static const CONDITION:QName = new QName(NAMESPACE, "condition");
+		public static const COS:QName = new QName(NAMESPACE, "cos");
+		public static const CSYMBOL:QName = new QName(NAMESPACE, "csymbol");
+		public static const DIVIDE:QName = new QName(NAMESPACE, "divide");
+		public static const DECLARE:QName = new QName(NAMESPACE, "declare");
+		public static const EMPTYSET:QName = new QName(NAMESPACE, "emptyset");
+		public static const EQ:QName = new QName(NAMESPACE, "eq");
+		public static const EXISTS:QName = new QName(NAMESPACE, "exists");
+		public static const EXPONENTIALE:QName = new QName(NAMESPACE, "exponentiale");
+		public static const FACTORIAL:QName = new QName(NAMESPACE, "factorial");
+		public static const FACTOROF:QName = new QName(NAMESPACE, "factorof");
+		public static const FALSE:QName = new QName(NAMESPACE, "false");
+		public static const FLOOR:QName = new QName(NAMESPACE, "floor");
+		public static const FORALL:QName = new QName(NAMESPACE, "forall");
+		public static const GEQ:QName = new QName(NAMESPACE, "geq");
+		public static const GT:QName = new QName(NAMESPACE, "gt");
+		public static const ID:QName = new QName(NAMESPACE, "id");
+		public static const IMPLIES:QName = new QName(NAMESPACE, "implies");
+		public static const IN:QName = new QName(NAMESPACE, "in");
+		public static const INFINITY:QName = new QName(NAMESPACE, "infinity");
+		public static const INTEGERS:QName = new QName(NAMESPACE, "integers");
+		public static const INTERSECT:QName = new QName(NAMESPACE, "intersect");
+		public static const LIST:QName = new QName(NAMESPACE, "list");
+		public static const LEQ:QName = new QName(NAMESPACE, "leq");
+		public static const LT:QName = new QName(NAMESPACE, "lt");
+		public static const MATH:QName = new QName(NAMESPACE, "math");
+		public static const MINUS:QName = new QName(NAMESPACE, "minus");
+		public static const NATURALNUMBERS:QName = new QName(NAMESPACE, "naturalnumbers");
+		public static const NEQ:QName = new QName(NAMESPACE, "neq");
+		public static const NOT:QName = new QName(NAMESPACE, "not");
+		public static const NOTANUMBER:QName = new QName(NAMESPACE, "notanumber");
+		public static const NOTIN:QName = new QName(NAMESPACE, "notin");
+		public static const NOTPRSUBSET:QName = new QName(NAMESPACE, "notprsubset");
+		public static const NOTSUBSET:QName = new QName(NAMESPACE, "notsubset");
+		public static const OTHERWISE:QName = new QName(NAMESPACE, "otherwise");
+		public static const OR:QName = new QName(NAMESPACE, "or");
+		public static const PI:QName = new QName(NAMESPACE, "pi");
+		public static const PIECE:QName = new QName(NAMESPACE, "piece");
+		public static const PIECEWISE:QName = new QName(NAMESPACE, "piecewise");
+		public static const PLUS:QName = new QName(NAMESPACE, "plus");
+		public static const PRIMES:QName = new QName(NAMESPACE, "primes");
+		public static const PRSUBSET:QName = new QName(NAMESPACE, "prsubset");
+		public static const RATIONALS:QName = new QName(NAMESPACE, "rationals");
+		public static const REALS:QName = new QName(NAMESPACE, "reals");
+		public static const SET:QName = new QName(NAMESPACE, "set");
+		public static const SETDIFF:QName = new QName(NAMESPACE, "setdiff");
+		public static const SIN:QName = new QName(NAMESPACE, "sin");
+		public static const SUBSET:QName = new QName(NAMESPACE, "subset");
+		public static const TAN:QName = new QName(NAMESPACE, "tan");
+		public static const TIMES:QName = new QName(NAMESPACE, "times");
+		public static const TRUE:QName = new QName(NAMESPACE, "true");
+		public static const UNION:QName = new QName(NAMESPACE, "union");
+		public static const VECTOR:QName = new QName(NAMESPACE, "vector");
+		public static const XOR:QName = new QName(NAMESPACE, "xor");
+	}
+}
