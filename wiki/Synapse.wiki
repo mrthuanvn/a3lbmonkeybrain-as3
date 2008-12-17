@@ -4,7 +4,7 @@
 
 _*Synapse*_ provides classes and utilities for Internet communication.
 
-_Synapse_ is included in `bin/3lbmonkeybrain.swc`, or can be used on its own with `bin/3lbmonkeybrain-synapse.swc`. 
+_Synapse_ is included in `3lbmonkeybrain.swc`, or can be used on its own with `3lbmonkeybrain-synapse.swc`. 
 
 = Details =
 
