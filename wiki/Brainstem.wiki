@@ -4,7 +4,7 @@
 
 _*Brainstem*_ is the core of _A Three-Pound Monkey Brain_. All other sections rely on this _Brainstem_.
 
-_Brainstem_ is included in `bin/3lbmonkeybrain.swc`, or can be used on its own with `bin/3lbmonkeybrain-brainstem.swc`.
+_Brainstem_ is included in `3lbmonkeybrain.swc`, or can be used on its own with `3lbmonkeybrain-brainstem.swc`.
 
 = Details =
 
