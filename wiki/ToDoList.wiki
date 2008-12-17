@@ -1,0 +1,63 @@
+#summary List of remaining tasks.
+
+= Brainstem =
+
+Remaining tasks for _[Brainstem]_:
+
+  * Finish [http://code.google.com/p/as3flexunitlib/ FlexUnit] tests.
+  * Finish [http://livedocs.adobe.com/flex/3/html/help.html?content=asdoc_1.html ASDoc].
+  * Work around [http://livedocs.adobe.com/flex/3/html/help.html?content=asdoc_1.html ASDoc] bug that causes only one standalone function per package to be documented.
+  * Fix trigonometry functions.
+
+= Calculia = 
+
+Remaining tasks for _[Calculia]_:
+
+  * Finish [http://code.google.com/p/as3flexunitlib/ FlexUnit] tests.
+  * Finish [http://livedocs.adobe.com/flex/3/html/help.html?content=asdoc_1.html ASDoc].
+  * Fix trigonometry functions.
+  * Revise MathML UI components?
+
+= Hippocampus = 
+
+Remaining tasks for _[Hippocampus]_:
+
+  * Finish [http://code.google.com/p/as3flexunitlib/ FlexUnit] tests.
+  * Finish [http://livedocs.adobe.com/flex/3/html/help.html?content=asdoc_1.html ASDoc].
+  * Remove text metadata classes?
+
+= Motor Cortex = 
+
+Remaining tasks for _[MotorCortex Motor Cortex]_:
+
+  * Finish [http://code.google.com/p/as3flexunitlib/ FlexUnit] tests.
+  * Finish [http://livedocs.adobe.com/flex/3/html/help.html?content=asdoc_1.html ASDoc].
+  * Add beacon package.
+  * Add point animation packages.
+
+= Synapse = 
+
+Remaining tasks for _[Synapse]_:
+
+  * Finish [http://code.google.com/p/as3flexunitlib/ FlexUnit] tests.
+  * Finish [http://livedocs.adobe.com/flex/3/html/help.html?content=asdoc_1.html ASDoc].
+  * Add asset-loading packages.
+
+= Visual Cortex = 
+
+Remaining tasks for _[VisualCortex Visual Cortex]_:
+
+  * Finish [http://code.google.com/p/as3flexunitlib/ FlexUnit] tests.
+  * Finish [http://livedocs.adobe.com/flex/3/html/help.html?content=asdoc_1.html ASDoc].
+
+
+
+
+
+
+
+
+
+
+
+
