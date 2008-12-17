@@ -1,0 +1,10 @@
+#summary A scripting language.
+
+= Introduction =
+
+*ActionScript* is an [http://www.ecma-international.org/publications/standards/Ecma-262.htm ECMAScript]-based language used by [http://www.adobe.com/products/flash/ Flash] and [http://www.adobe.com/products/flex/ Flex Builder].
+
+
+= External Links  =
+
+  * [http://livedocs.adobe.com/flex/3/langref/index.html Flex 3 Language Reference]
