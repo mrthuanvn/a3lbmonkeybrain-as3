@@ -4,7 +4,7 @@
 
 _*Calculia*_ builds on the mathematical functionality in _[Brainstem]_, including tools for parsing and displaying [http://www.w3.org/Math/ MathML-Content].
 
-Brainstem is included in bin/3lbmonkeybrain.swc, or can be used on its own with bin/3lbmonkeybrain-calculia.swc. 
+_Calculia_ is included in `bin/3lbmonkeybrain.swc`, or can be used on its own with `bin/3lbmonkeybrain-calculia.swc`. 
 
 = Details =
 
