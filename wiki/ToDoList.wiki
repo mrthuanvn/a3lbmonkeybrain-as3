@@ -1,5 +1,10 @@
 #summary List of remaining tasks.
 
+= General =
+
+  * Upload API.
+  * Upload SWC files.
+
 = Brainstem =
 
 Remaining tasks for _[Brainstem]_:
@@ -49,8 +54,6 @@ Remaining tasks for _[VisualCortex Visual Cortex]_:
 
   * Finish [http://code.google.com/p/as3flexunitlib/ FlexUnit] tests.
   * Finish [http://livedocs.adobe.com/flex/3/html/help.html?content=asdoc_1.html ASDoc].
-
-
 
 
 
