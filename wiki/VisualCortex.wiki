@@ -1,0 +1,11 @@
+#summary UI-related packages.
+
+= Introduction =
+
+_*Visual Cortex*_ provides classes and utilities for user interface. In general, classes require [Flex].
+
+_Visual Cortex_ is included in `bin/3lbmonkeybrain.swc`, or can be used on its own with `bin/3lbmonkeybrain-visualcortex.swc`. 
+
+= Details =
+
+This package is still under development.
