@@ -12,7 +12,7 @@ Remaining tasks for _[Brainstem]_:
   * Finish [http://code.google.com/p/as3flexunitlib/ FlexUnit] tests.
   * Finish [http://livedocs.adobe.com/flex/3/html/help.html?content=asdoc_1.html ASDoc].
   * Work around [http://livedocs.adobe.com/flex/3/html/help.html?content=asdoc_1.html ASDoc] bug that causes only one standalone function per package to be documented.
-  * Fix trigonometry functions.
+  * Fix trigonometry [http://code.google.com/p/as3flexunitlib/ FlexUnit] tests.
 
 = Calculia = 
 
@@ -54,8 +54,6 @@ Remaining tasks for _[VisualCortex Visual Cortex]_:
 
   * Finish [http://code.google.com/p/as3flexunitlib/ FlexUnit] tests.
   * Finish [http://livedocs.adobe.com/flex/3/html/help.html?content=asdoc_1.html ASDoc].
-
-
 
 
 
