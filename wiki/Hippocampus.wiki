@@ -4,7 +4,8 @@
 
 _*Hippocampus*_ provides classes and utilities for persistent value objects.
 
+_Hippocampus_ is included in `bin/3lbmonkeybrain.swc`, or can be used on its own with `bin/3lbmonkeybrain-calculia.swc`. 
 
 = Details =
 
-_Hippocampus_ is under development.
+This package is still under development.
