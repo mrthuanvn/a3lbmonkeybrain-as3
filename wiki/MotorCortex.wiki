@@ -4,7 +4,7 @@
 
 _*Motor Cortex*_ provides classes and utilities for animation.
 
-_Motor Cortex_ is included in `bin/3lbmonkeybrain.swc`, or can be used on its own with `bin/3lbmonkeybrain-motorcortex.swc`. 
+_Motor Cortex_ is included in `3lbmonkeybrain.swc`, or can be used on its own with `3lbmonkeybrain-motorcortex.swc`. 
 
 = Details =
 
