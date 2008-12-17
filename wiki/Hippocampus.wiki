@@ -1,0 +1,10 @@
+#summary Persistence-related packages.
+
+= Introduction =
+
+_*Hippocampus*_ provides classes and utilities for persistent value objects.
+
+
+= Details =
+
+_Hippocampus_ is under development.
