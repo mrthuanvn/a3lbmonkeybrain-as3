@@ -17,6 +17,6 @@ package a3lbmonkeybrain.brainstem.collections
 		 * @throws RangeError
 		 * 		<code>RangeError</code> - If <code>index</code> does not correspond to a member of this list.
 		 */		
-		function getMember(index:int):Object;
+		function getMember(index:uint):Object;
 	}
 }

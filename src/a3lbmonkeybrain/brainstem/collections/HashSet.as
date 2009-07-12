@@ -49,7 +49,7 @@ package a3lbmonkeybrain.brainstem.collections
 		 * @see #empty
 		 * @see #size
 		 */
-		protected var _size:int = 0;
+		protected var _size:uint = 0;
 		/**
 		 * Creates a new, empty instance. 
 		 * 
@@ -95,7 +95,7 @@ package a3lbmonkeybrain.brainstem.collections
 		 * 
 		 * @see #empty
 		 */
-		public function get size():int
+		public function get size():uint
 		{
 			return _size;
 		}
@@ -122,7 +122,7 @@ package a3lbmonkeybrain.brainstem.collections
 		 * Adds the members of another collection.
 		 *  
 		 * @param value
-		 * 		Another collection. Can be a <code>HashSet</code>, an <code>Array</code>, or any
+		 * 		Another collection. Can be a <code>HashSet</code>, an <code>Array</code>, a <code>Vector</code>, or any
 		 * 		object that allows <code>for each..in</code> iteration.
 		 * @see #add()
 		 */
@@ -431,7 +431,7 @@ package a3lbmonkeybrain.brainstem.collections
 		 *  
 		 * @param value
 		 * 		Object to calculate intersection with. May be a <code>HashSet</code>, an
-		 * 		<code>Array</code>, or any type of object which can be iterated over using
+		 * 		<code>Array</code>, a <code>Vector</code>, or any type of object which can be iterated over using
 		 * 		<code>for each..in</code>. (This function is optimized for <code>HashSet</code>
 		 * 		objects.)
 		 * @return
@@ -478,7 +478,7 @@ package a3lbmonkeybrain.brainstem.collections
 		{
 			if (value is MutableSet)
 				return value as MutableSet;
-			return fromObject(value.toArray());
+			return fromObject(value.toVector());
 		}
 		/**
 		 * Executes a function on each member of this set, and constructs a new set of elements corresponding to the
@@ -655,14 +655,12 @@ package a3lbmonkeybrain.brainstem.collections
 		 * @return 
 		 * 		A new <code>Array</code> instance.
 		 */
-		override public function toArray():Array
+		public function toArray():Array
 		{
 			const array:Array = new Array(_size);
-			var i:int = 0;
+			var i:uint = 0;
 			for each (var member:Object in hash)
-			{
 				array[i++] = member;
-			}
 			return array;
 		}
 		/**
@@ -670,7 +668,21 @@ package a3lbmonkeybrain.brainstem.collections
 		 */
 		public final function toString():String
 		{
-			return "{" + toArray().join(", ") + "}";
+			return "{" + toVector().join(", ") + "}";
+		}
+		/**
+		 * Converts this set into a vector with the same membership.
+		 *  
+		 * @return 
+		 * 		A new <code>Vector.&lt;Object&gt;</code> instance.
+		 */
+		override public function toVector():Vector.<Object>
+		{
+			const v:Vector.<Object> = new Vector.<Object>(_size);
+			var i:uint = 0;
+			for each (var member:Object in hash)
+				v[i++] = member;
+			return v;
 		}
 		/**
 		 * Returns the union of this set and another set.

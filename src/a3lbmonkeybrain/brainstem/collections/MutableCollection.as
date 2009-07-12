@@ -8,7 +8,7 @@ package a3lbmonkeybrain.brainstem.collections
 	public interface MutableCollection extends FiniteCollection
 	{
 		/**
-		 * Adds an element as a member of this set.
+		 * Adds an element as a member of this collection.
 		 *  
 		 * @param element
 		 * 		New element to add as a member.
@@ -20,7 +20,7 @@ package a3lbmonkeybrain.brainstem.collections
 		/**
 		 * Adds the members of another collection.
 		 *  
-		 * @param value
+		 * @param collection
 		 * 		Another collection. Can be a <code>Collection</code> or any object whose members can be retrieved using
 		 * 		<code>for each..in</code>.
 		 * @see #add()
@@ -28,7 +28,7 @@ package a3lbmonkeybrain.brainstem.collections
 		 * @see http://livedocs.adobe.com/flex/3/langref/statements.html#for_each..in
 		 * 		for each..in
 		 */
-		function addMembers(value:Object):void;
+		function addMembers(collection:Object):void;
 		/**
 		 * Removes all members.
 		 * 
@@ -45,7 +45,7 @@ package a3lbmonkeybrain.brainstem.collections
 		/**
 		 * Removes the members of another collection.
 		 *  
-		 * @param value
+		 * @param collection
 		 * 		Another collection. Can be a <code>Collection</code> or any object whose members can be retrieved using
 		 * 		<code>for each..in</code>.
 		 * @see #remove()
@@ -53,6 +53,6 @@ package a3lbmonkeybrain.brainstem.collections
 		 * @see http://livedocs.adobe.com/flex/3/langref/statements.html#for_each..in
 		 * 		for each..in
 		 */
-		function removeMembers(value:Object):void;
+		function removeMembers(collection:Object):void;
 	}
 }

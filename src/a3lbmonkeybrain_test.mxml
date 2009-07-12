@@ -71,7 +71,7 @@
 				suite.addTestSuite(AngleTest);
 				suite.addTestSuite(CalcTableTest);
 				suite.addTestSuite(MathMLComponentTest);
-				suite.addTestSuite(NetworkTest);
+				suite.addTestSuite(HashNetworkTest);
 				return suite;
 			}
 			public static function get hippocampusTest():Test

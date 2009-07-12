@@ -12,6 +12,7 @@ package a3lbmonkeybrain.synapse.streamClient
 	import flexunit.framework.TestCase;
 	
 	import mx.core.Application;
+	import mx.core.FlexGlobals;
 
 	/**
 	 * @private
@@ -27,9 +28,9 @@ package a3lbmonkeybrain.synapse.streamClient
 			video.opaqueBackground = true;
 			video.width = 360;
 			video.height = 288;
-			video.x = (Application.application.stage.width - 360) / 2;
-			video.y = (Application.application.stage.height - 288) / 2;
-			Application(Application.application).rawChildren.addChild(video);
+			video.x = (FlexGlobals.topLevelApplication.stage.width - 360) / 2;
+			video.y = (FlexGlobals.topLevelApplication.stage.height - 288) / 2;
+			Application(FlexGlobals.topLevelApplication).rawChildren.addChild(video);
 		}
 		override public function tearDown():void
 		{

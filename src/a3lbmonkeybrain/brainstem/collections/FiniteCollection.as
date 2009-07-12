@@ -35,12 +35,12 @@ package a3lbmonkeybrain.brainstem.collections
 		 * </p>
 		 * 
 		 * @return 
-		 * 		An integer from <code>0</code> to <code>int.MAX_VALUE</code>.
+		 * 		An integer from <code>0</code> to <code>uint.MAX_VALUE</code>.
 		 * @see #empty
-		 * @see http://livedocs.adobe.com/flex/3/langref/int.html#MAX_VALUE
-		 * 		int.MAX_VALUE
+		 * @see http://livedocs.adobe.com/flex/3/langref/uint.html#MAX_VALUE
+		 * 		uint.MAX_VALUE
 		 */		
-		function get size():int;
+		function get size():uint;
 		/**
 		 * Checks whether all members of this collection return <code>true</code> when passed as an argument to a specified function.
 		 * 
@@ -111,5 +111,12 @@ package a3lbmonkeybrain.brainstem.collections
 		 * 		An array containing all members of this collection.
 		 */
 		function toArray():Array;
+		/**
+		 * Converts this collection to a vector.
+		 *  
+		 * @return 
+		 * 		A vector containing all members of this collection.
+		 */
+		function toVector():Vector.<Object>;
 	}
 }

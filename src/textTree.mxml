@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application
+	initialize="onInitialize()"
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/halo"
+	minWidth="640"
+	minHeight="480" viewSourceURL="srcview/index.html">
+
+	<fx:Script>
+		<![CDATA[
+			import flash.net.navigateToURL;
+			import a3lbmonkeybrain.brainstem.collections.FiniteSet;
+			import a3lbmonkeybrain.brainstem.collections.HashSet;
+			import a3lbmonkeybrain.brainstem.collections.MutableSet;
+			import a3lbmonkeybrain.calculia.collections.graphs.AcyclicGraph;
+			import a3lbmonkeybrain.calculia.collections.graphs.Graph;
+			import a3lbmonkeybrain.calculia.collections.graphs.importers.NewickImporter;
+			import a3lbmonkeybrain.calculia.collections.graphs.exporters.TextCladogramExporter;
+			import a3lbmonkeybrain.visualcortex.alerts.alertError;
+			
+			private const timer:Timer = new Timer(500);
+			private const exporter:TextCladogramExporter = new TextCladogramExporter();
+			private const importer:NewickImporter = new NewickImporter();
+			
+			private var graph:AcyclicGraph;
+
+			private function get newickBytes():ByteArray
+			{
+				const bytes:ByteArray = new ByteArray();
+				bytes.writeUTFBytes(newickInput.text);
+				return bytes;
+			}
+
+			private function compareVertices(a:Object, b:Object):int
+			{
+				const aSucc:uint = graph.successors(a).size;
+				const bSucc:uint = graph.successors(b).size;
+				if (aSucc == bSucc)
+				{
+					if (a is String && b is String)
+						return a == b ? 0 : (a < b ? -1 : 1);
+					if (!(a is String || b is String))
+						return 0;
+					if (a is String)
+						return 1;
+					return -1;
+				}
+				return aSucc - bSucc;
+			}
+			private function copy():void
+			{
+				try
+				{
+					graph = importer.importGraph(newickBytes) as AcyclicGraph;
+					const bytes:ByteArray = exporter.export(graph);
+					bytes.position = 0;
+					treeOutput.text = bytes.readUTFBytes(bytes.length);
+					System.setClipboard(treeOutput.text);
+				}
+				catch (e:Error)
+				{
+					alertError(e);
+				}
+				finally
+				{
+					graph = null;
+				}
+			}
+			private function doExample():void
+			{				
+				newickInput.text = "((Pogo Possum,(Porky Pine,('Miss Mam''selle Hepzibah',Beauregard Bugleboy)Caniformes)Boreoeutheria)Theria,(Churchill La Femme,(Howland Owl,Albert Alligator)Archosauria)Sauropsida)Amniota;";
+				preview();
+			}
+			private static function labelVertex(v:Object):String
+			{
+				if (v is String)
+					return v as String;
+				return "";
+			}
+			private function navigateToNewickPage():void
+			{
+				navigateToURL(new URLRequest("http://en.wikipedia.org/wiki/Newick_format"), "_blank");
+			}
+			private function onInitialize():void
+			{
+				exporter.vertexCompareFunction = compareVertices;
+				exporter.vertexLabelFunction = labelVertex;
+				timer.addEventListener(TimerEvent.TIMER, onTimer);
+			}
+			private function onNewickInputChange():void
+			{
+				currentState = 'awaiting';
+				if (!timer.running)
+					timer.start()
+			}
+			private function onTimer(event:TimerEvent):void
+			{
+				try
+				{
+					currentState = importer.matches(newickBytes)
+						? "ready" : "awaiting";
+					timer.reset();
+				}
+				catch (e:Error)
+				{
+					trace(e.getStackTrace());
+				}
+			}
+			private function preview():void
+			{
+				try
+				{
+					graph = importer.importGraph(newickBytes) as AcyclicGraph;
+					const bytes:ByteArray = exporter.export(graph);
+					bytes.position = 0;
+					treeOutput.text = bytes.readUTFBytes(bytes.length);
+				}
+				catch (e:Error)
+				{
+					alertError(e);
+				}
+				finally
+				{
+					graph = null;
+				}
+			}
+			private function save():void
+			{
+				try
+				{
+					graph = importer.importGraph(newickBytes) as AcyclicGraph;
+					const bytes:ByteArray = exporter.export(graph);
+					bytes.position = 0;
+					const fileRef:FileReference = new FileReference();
+					fileRef.save(bytes, suggestFileName());
+					bytes.position = 0;
+					treeOutput.text = bytes.readUTFBytes(bytes.length);
+				}
+				catch (e:Error)
+				{
+					alertError(e);
+				}
+				finally
+				{
+					graph = null;
+				}
+			}
+			private function suggestFileName():String
+			{
+				const minimals:FiniteSet = graph.minimal(graph.vertices);
+				var fileName:String = suggestFileNameFromSet(minimals);
+				if (fileName == null || fileName == "")
+					fileName = "newick";
+				return fileName + ".tree";
+			}
+			private function suggestFileNameFromSet(s:FiniteSet):String
+			{
+				const names:Array = [];
+				for each (var v:Object in s)
+					if (v is String)
+						names.push(String(v).replace(/[^A-Za-z0-9_-]+/g, ""));
+				if (names.length == 0)
+				{
+					const children:MutableSet = new HashSet();
+					for each (v in s)
+						children.addMembers(graph.directSuccessors(v));
+					if (children.empty)
+						return null;
+					return suggestFileNameFromSet(children);
+				}
+				return names.sort().join("_").substr(0, 64);
+			}
+		]]>
+	</fx:Script>
+
+	<s:layout>
+		<s:VerticalLayout gap="20" paddingBottom="20" paddingLeft="20" paddingRight="20" paddingTop="20"/>
+	</s:layout>
+	
+	<s:states>
+		<mx:State name="awaiting"/>
+		<mx:State name="ready"/>
+	</s:states>
+	
+	<s:Group width="100%">
+	
+		<s:layout>
+			<s:HorizontalLayout gap="20"/>
+		</s:layout>
+	
+		<s:SimpleText width="100%">
+			<s:text>Enter a Newick tree string below, then click one of the buttons to the right to convert it into a readable text tree.</s:text>
+		</s:SimpleText>
+		
+		<s:Group>
+		
+			<s:layout>
+				<s:HorizontalLayout gap="5"/>
+			</s:layout>
+		
+			<s:Button click.ready="preview()" enabled.awaiting="false" label="Preview."/>
+			
+			<s:Button click.ready="save()" enabled.awaiting="false" label="Save to file."/>
+			
+			<s:Button click.ready="copy()" enabled.awaiting="false" label="Copy to clipboard."/>
+		
+		</s:Group>
+		
+	</s:Group>
+	
+	<s:TextArea id="newickInput" change="onNewickInputChange()" heightInLines="3" width="100%"/>
+	
+	<s:Group width="100%">
+	
+		<s:layout>
+			<s:HorizontalLayout gap="20"/>
+		</s:layout>
+		
+		<s:SimpleText id="treeOutput" fontFamily="_typewriter" width="100%"/>
+		
+		<s:Group>
+			
+			<s:layout>
+				<s:VerticalLayout gap="5"/>
+			</s:layout>
+			
+			<s:Button click="doExample()" label="See an example."/>
+			
+			<s:Button click="navigateToNewickPage()" label="More about Newick format."/>
+				
+		</s:Group>
+		
+	</s:Group>
+	
+</s:Application>

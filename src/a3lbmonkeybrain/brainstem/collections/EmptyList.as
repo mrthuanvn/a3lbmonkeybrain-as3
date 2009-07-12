@@ -30,7 +30,7 @@ package a3lbmonkeybrain.brainstem.collections
 		/**
 		 * @inheritDoc
 		 */
-		public function getMember(index:int):Object
+		public function getMember(index:uint):Object
 		{
 			throw new RangeError("Empty list does not have members.");
 		}

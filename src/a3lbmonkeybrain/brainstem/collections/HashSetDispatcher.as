@@ -59,7 +59,7 @@ package a3lbmonkeybrain.brainstem.collections
 		/**
 		 * @inheritDoc
 		 */
-		override public function get size():int
+		override public function get size():uint
 		{
 			return _size;
 		}
@@ -68,7 +68,7 @@ package a3lbmonkeybrain.brainstem.collections
 		 */
 		override public function add(member:Object):void
 		{
-			const s:int = _size;
+			const s:uint = _size;
 			super.add(member);
 			if (_size != s && hasEventListener(Event.CHANGE))
 				dispatchEvent(new Event(Event.CHANGE));
@@ -100,7 +100,7 @@ package a3lbmonkeybrain.brainstem.collections
 		 */
 		override public function addMembers(value:Object):void
 		{
-			const s:int = _size;
+			const s:uint = _size;
 			super.addMembers(value);
 			if (_size != s && hasEventListener(Event.CHANGE))
 				dispatchEvent(new Event(Event.CHANGE));
@@ -152,7 +152,7 @@ package a3lbmonkeybrain.brainstem.collections
 		 */
 		override public function remove(member:Object):void
 		{
-			const s:int = _size;
+			const s:uint = _size;
 			super.remove(member);
 			if (_size != s && hasEventListener(Event.CHANGE))
 				dispatchEvent(new Event(Event.CHANGE));
@@ -179,7 +179,7 @@ package a3lbmonkeybrain.brainstem.collections
 		 */
 		override public function removeMembers(value:Object):void
 		{
-			const s:int = _size;
+			const s:uint = _size;
 			super.removeMembers(value);
 			if (_size != s && hasEventListener(Event.CHANGE))
 				dispatchEvent(new Event(Event.CHANGE));

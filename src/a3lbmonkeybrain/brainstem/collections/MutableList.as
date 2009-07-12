@@ -7,6 +7,8 @@ package a3lbmonkeybrain.brainstem.collections
 	 */
 	public interface MutableList extends FiniteList, MutableCollection
 	{
-		function removeAt(index:int):void;
+		function addToStart(element:Object):void;
+		function addMembersToStart(collection:Object):void;
+		function removeAt(index:uint):void;
 	}
 }
