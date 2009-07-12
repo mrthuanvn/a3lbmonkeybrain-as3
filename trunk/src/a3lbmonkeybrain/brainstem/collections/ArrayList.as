@@ -64,7 +64,7 @@ package a3lbmonkeybrain.brainstem.collections
 		/**
 		 * @inheritDoc
 		 */
-		public function get size():int
+		public function get size():uint
 		{
 			return members.length;
 		}
@@ -97,6 +97,27 @@ package a3lbmonkeybrain.brainstem.collections
 					throw new IllegalOperationError("Collection cannot be a member of itself.");
 				members.push(element);
 			}
+		}
+		/**
+		 * @inheritDoc 
+		 */
+		public function addMembersToStart(collection:Object):void
+		{
+			for each (var element:Object in collection)
+			{
+				if (element == this)
+					throw new IllegalOperationError("Collection cannot be a member of itself.");
+				members.unshift(element);
+			}
+		}
+		/**
+		 * @inheritDoc 
+		 */
+		public function addToStart(member:Object):void
+		{
+			if (member == this)
+				throw new IllegalOperationError("Collection cannot be a member of itself.");
+			members.unshift(member);
 		}
 		/**
 		 * @inheritDoc 
@@ -168,10 +189,10 @@ package a3lbmonkeybrain.brainstem.collections
 			if (value is FiniteList)
 			{
 				const l:FiniteList = value as FiniteList;
-				const n:int = members.length;
+				const n:uint = members.length;
 				if (l.size != n)
 					return false;
-				for (var i:int = 0; i < n; ++i)
+				for (var i:uint = 0; i < n; ++i)
 				{
 					if (!Equality.equal(members[i], l.getMember(i)))
 						return false;
@@ -206,9 +227,9 @@ package a3lbmonkeybrain.brainstem.collections
 		/**
 		 * @inheritDoc
 		 */
-		public function getMember(index:int):Object
+		public function getMember(index:uint):Object
 		{
-			if (index < 0 || index >= members.length)
+			if (index >= members.length)
 				throw new RangeError("Index is out of range: " + index);
 			return members[index];
 		}
@@ -338,27 +359,27 @@ package a3lbmonkeybrain.brainstem.collections
 		{
 			if (member is Equatable)
 			{
-				for (var i:int = members.length - 1; i >= 0; --i)
+				for (var i:uint = members.length; i > 0; --i)
 				{
-					if (Equatable(member).equals(members[i]))
-						members.splice(i, 1);
+					if (Equatable(member).equals(members[i - 1]))
+						members.splice(i - 1, 1);
 				}
 			}
 			else
 			{
-				for (i = members.length - 1; i >= 0; --i)
+				for (i = members.length; i > 0; --i)
 				{
-					if (member == members[i])
-						members.splice(i, 1);
+					if (member == members[i - 1])
+						members.splice(i - 1, 1);
 				}
 			}
 		}
 		/**
 		 * @inheritDoc
 		 */
-		public function removeAt(index:int):void
+		public function removeAt(index:uint):void
 		{
-			if (index < 0 || index >= members.length)
+			if (index >= members.length)
 				throw new RangeError("Index is out of range: " + index);
 			members.splice(index, 1);
 		}
@@ -406,9 +427,16 @@ package a3lbmonkeybrain.brainstem.collections
 		/**
 		 * @inheritDoc 
 		 */
-		override public function toArray():Array
+		public function toArray():Array
 		{
 			return members.concat();
+		}
+		/**
+		 * @inheritDoc 
+		 */
+		override public function toVector():Vector.<Object>
+		{
+			return Vector.<Object>(members);
 		}
 		/**
 		 * Returns a string representation of this list.

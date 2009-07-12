@@ -9,8 +9,8 @@ package a3lbmonkeybrain.hippocampus.ui.search
 	import flash.geom.Rectangle;
 	
 	import mx.controls.Menu;
-	import mx.core.Application;
 	import mx.core.EventPriority;
+	import mx.core.FlexGlobals;
 	import mx.core.UIComponent;
 	import mx.core.UIComponentGlobals;
 	import mx.core.mx_internal;
@@ -77,7 +77,7 @@ package a3lbmonkeybrain.hippocampus.ui.search
 	    {
 	        var menu:EntitySearchMenu = new EntitySearchMenu();
 	        menu.tabEnabled = false;
-	        menu.owner = DisplayObjectContainer(Application.application);
+	        menu.owner = DisplayObjectContainer(FlexGlobals.topLevelApplication);
 	        menu.showRoot = showRoot;
 	        popUpMenu(menu, parent, menuDataProvider);
 	        return menu;
@@ -130,7 +130,7 @@ package a3lbmonkeybrain.hippocampus.ui.search
 	    public static function popUpMenu(menu:EntitySearchMenu, parent:DisplayObjectContainer,
 	    	menuDataProvider:Object = null):void
 	    {
-	        menu.parentDisplayObject = parent ?parent : DisplayObject(Application.application);
+	        menu.parentDisplayObject = parent ?parent : DisplayObject(FlexGlobals.topLevelApplication);
 	        if (menuDataProvider == null)
 	            menuDataProvider = new MenuDataItem();
 	        menu.supposedToLoseFocus = true;

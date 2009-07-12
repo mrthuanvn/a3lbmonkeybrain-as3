@@ -26,7 +26,7 @@ package a3lbmonkeybrain.brainstem.collections
 			return true;
 		}
 		
-		public function get size():int
+		public function get size():uint
 		{
 			return 0;
 		}
@@ -64,6 +64,10 @@ package a3lbmonkeybrain.brainstem.collections
 		public function toArray():Array
 		{
 			return [];
+		}
+		public function toVector():Vector.<Object>
+		{
+			return new Vector.<Object>(0);
 		}
 		
 		/**

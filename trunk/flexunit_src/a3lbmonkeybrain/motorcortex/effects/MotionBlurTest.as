@@ -7,7 +7,7 @@ package a3lbmonkeybrain.motorcortex.effects
 	
 	import flexunit.framework.TestCase;
 	
-	import mx.core.Application;
+	import mx.core.FlexGlobals;
 
 	/**
 	 * @private 
@@ -19,7 +19,7 @@ package a3lbmonkeybrain.motorcortex.effects
 		private var blurred:TextField;
 		private function completeTest(...args):void
 		{
-			Application.application.removeEventListener(MouseEvent.MOUSE_MOVE, updateBlurredPos);
+			FlexGlobals.topLevelApplication.removeEventListener(MouseEvent.MOUSE_MOVE, updateBlurredPos);
 			blurred.parent.removeChild(blurred);
 			blur.dispose();
 		}
@@ -34,15 +34,15 @@ package a3lbmonkeybrain.motorcortex.effects
 			blurred.filters = [new DropShadowFilter()];
 			updateBlurredPos();
 			blur = new MotionBlur(blurred, 0.3);
-			Application.application.rawChildren.addChild(blurred);
-			Application.application.addEventListener(MouseEvent.MOUSE_MOVE, updateBlurredPos);
+			FlexGlobals.topLevelApplication.rawChildren.addChild(blurred);
+			FlexGlobals.topLevelApplication.addEventListener(MouseEvent.MOUSE_MOVE, updateBlurredPos);
 			blurred.addEventListener(MouseEvent.CLICK, addAsync(completeTest, 10 * 1000, null, completeTest), false, 0,
 				true);
 		}
 		private function updateBlurredPos(event:MouseEvent = null):void
 		{
-			blurred.x = Application.application.mouseX - blurred.width / 2;
-			blurred.y = Application.application.mouseY - blurred.height / 2;
+			blurred.x = FlexGlobals.topLevelApplication.mouseX - blurred.width / 2;
+			blurred.y = FlexGlobals.topLevelApplication.mouseY - blurred.height / 2;
 		}
 	}
 }

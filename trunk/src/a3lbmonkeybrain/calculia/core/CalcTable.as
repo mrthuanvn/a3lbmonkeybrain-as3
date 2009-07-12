@@ -12,7 +12,7 @@ package a3lbmonkeybrain.calculia.core
 		}
 		public static function argumentsToToken(arguments:Array):Object
 		{
-			return findArgumentsToken(argTokens, arguments.concat());
+			return findArgumentsToken(argTokens, arguments);
 		}
 		private static function findArgumentsToken(tokens:Dictionary, arguments:Array):Object
 		{
@@ -28,26 +28,20 @@ package a3lbmonkeybrain.calculia.core
 		{
 			const opTable:* = results[operation];
 			if (opTable is Dictionary)
-			{
 				return opTable[argumentsToToken(arguments)];
-			}
 			return undefined;
 		}
 		public function setResult(operation:Object, arguments:Array, result:*):void
 		{
 			var opTable:* = results[operation];
 			if (!(opTable is Dictionary))
-			{
 				opTable = results[operation] = new Dictionary(false);
-			}
 			opTable[argumentsToToken(arguments)] = result;
 		}
 		public function reset():void
 		{
 			for (var key:* in results)
-			{
 				delete results[key];
-			}
 		}
 	}
 }

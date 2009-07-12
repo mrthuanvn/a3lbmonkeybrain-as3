@@ -3,10 +3,9 @@ package a3lbmonkeybrain.brainstem.test
 	import a3lbmonkeybrain.brainstem.core.findClassName;
 	
 	import flash.display.DisplayObject;
-	import flash.events.Event;
 	
 	import mx.containers.TitleWindow;
-	import mx.core.Application;
+	import mx.core.FlexGlobals;
 	import mx.core.IFlexDisplayObject;
 	import mx.core.UIComponent;
 	import mx.events.CloseEvent;
@@ -30,7 +29,7 @@ package a3lbmonkeybrain.brainstem.test
 			window.title = className + " Test";
 			window.showCloseButton = true;
 			window.addChild(value);
-			PopUpManager.addPopUp(window, Application.application as DisplayObject, true);
+			PopUpManager.addPopUp(window, FlexGlobals.topLevelApplication as DisplayObject, true);
 			PopUpManager.centerPopUp(window);
 			if (onClose != null)
 				window.addEventListener(CloseEvent.CLOSE, onClose);

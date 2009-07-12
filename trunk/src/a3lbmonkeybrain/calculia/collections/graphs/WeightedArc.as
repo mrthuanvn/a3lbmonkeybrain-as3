@@ -9,10 +9,10 @@ package a3lbmonkeybrain.calculia.collections.graphs
 	import a3lbmonkeybrain.brainstem.relate.Equality;
 	
 	import flash.utils.flash_proxy;
-	
+
 	use namespace flash_proxy;
 	
-	public final class WeightedArc extends SimpleArc
+	public final class WeightedArc extends Arc
 	{
 		private var _weight:Number;
 		public function WeightedArc(head:Object, tail:Object, weight:Number)
@@ -20,7 +20,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 			super(head, tail);
 			_weight = weight;
 		}
-		override public function get size():int
+		override public function get size():uint
 		{
 			return 3;
 		}
@@ -58,7 +58,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 			super.forEach(test, thisObject);
 			test.apply(thisObject, [_weight]);
 		}
-		override public function getMember(index:int):Object
+		override public function getMember(index:uint):Object
 		{
 			if (index == 2)
 				return _weight;
@@ -118,6 +118,10 @@ package a3lbmonkeybrain.calculia.collections.graphs
 		override public function toArray():Array
 		{
 			return [_head, _tail, _weight];
+		}
+		override public function toVector() : Vector.<Object>
+		{
+			return Vector.<Object>([_head, _tail, _weight]);
 		}
 		override public function toString():String 
 		{
