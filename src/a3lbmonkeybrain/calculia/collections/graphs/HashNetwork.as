@@ -10,7 +10,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 	
 	import flash.errors.IllegalOperationError;
 
-	public class HashNetwork extends AbstractGraph implements MutableNetwork
+	public class HashNetwork extends AbstractGraph implements MutableDigraph
 	{
 		protected const _vertices:MutableSet = new HashSet();
 		protected const arcs:MutableSet = new HashSet();
@@ -28,7 +28,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 				network.createWeightedEdge(arc[0], arc[1], arc.hasOwnProperty(2) ? (arc[2] as Number) : NaN);
 			return network;
 		}
-		public function weightedBall(v:Object, d:Number):FiniteSet
+		override public function weightedBall(v:Object, d:Number, weight:GraphWeight):FiniteSet
 		{
 			// :TODO: Use calcTable?
 			if (isNaN(d))
@@ -39,10 +39,8 @@ package a3lbmonkeybrain.calculia.collections.graphs
 				return _vertices;
 			const ball:MutableSet = new HashSet();
 			for each (var u:Object in _vertices)
-			{
-				if (weightedDistance(u, v) < d)
+				if (weightedDistance(u, v, weight) < d)
 					ball.add(u);
-			}
 			return ball;
 		}
 		public function createWeightedEdge(u:Object, v:Object, weight:Number):FiniteList
@@ -70,7 +68,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 						return false;
 			return true;
 		}
-		public function weightedDistance(u:Object, v:Object):Number
+		override public function weightedDistance(u:Object, v:Object, weight:GraphWeight):Number
 		{
 			if (u == v)
 				return 0.0;
@@ -80,8 +78,8 @@ package a3lbmonkeybrain.calculia.collections.graphs
 			const r:* = calcTable.getResult(weightedDistance, args);
 			if (r is Number)
 				return r as Number;
-			const traverser:WeightedDistanceTraverser = new WeightedDistanceTraverser(v);
-			traverser.traverseArcs(this, u);
+			const traverser:WeightedDistanceTraverser = new WeightedDistanceTraverser(v, weight);
+			traverser.traverseEdges(this, u);
 			const result:Number = traverser.minimumDistance;
 			calcTable.setResult(weightedDistance, args, result);
 			calcTable.setResult(weightedDistance, [v, u], result);
@@ -100,7 +98,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 		}
 		public function addEdge(edge:FiniteCollection):void
 		{
-			const arc:FiniteList = convertToArc(edge);
+			const edge:FiniteCollection = convertToArc(edge);
 			if (arc.getMember(0) == arc.getMember(1))
 				throw new ArgumentError("Loops are not allowed in this type of graph.");
 			if (!arcs.has(arc))
@@ -156,14 +154,14 @@ package a3lbmonkeybrain.calculia.collections.graphs
 			if (_vertices.has(v))
 			{
 				calcTable.reset();
-				for each (var arc:FiniteList in incidentEdges(v))
+				for each (var edge:FiniteCollection in incidentEdges(v))
 					arcs.remove(arc);
 				_vertices.remove(v);
 			}
 		}
 		public function removeEdge(edge:FiniteCollection):void
 		{
-			const arc:FiniteList = convertToArc(edge);
+			const edge:FiniteCollection = convertToArc(edge);
 			if (arcs.has(arc))
 			{
 				arcs.remove(arc);
@@ -177,7 +175,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 			if (r is Boolean)
 				return r as Boolean;
 			const traverser:ConnectionTraverser = new ConnectionTraverser(v);
-			traverser.traverseArcs(this, u);
+			traverser.traverseEdges(this, u);
 			const result:Boolean = traverser.connected;
 			calcTable.setResult(areConnected, args, result);
 			return result;
@@ -210,7 +208,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 			if (r is Number)
 				return r as Number;
 			const traverser:DistanceTraverser = new DistanceTraverser(v);
-			traverser.traverseArcs(this, u);
+			traverser.traverseEdges(this, u);
 			const result:uint = traverser.minimumDistance;
 			calcTable.setResult(distance, args, result);
 			calcTable.setResult(distance, [v, u], result);
@@ -223,7 +221,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 			if (r is FiniteSet)
 				return r as FiniteSet;
 			const result:MutableSet = new HashSet();
-			for each (var arc:FiniteList in arcs)
+			for each (var edge:FiniteCollection in arcs)
 				if (arc.getMember(0) == v || arc.getMember(1) == v)
 					result.add(arc);
 			calcTable.setResult(incidentEdges, args, result);
@@ -242,7 +240,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 			if (r is FiniteSet)
 				return r as FiniteSet;
 			const traverser:WalksTraverser = new WalksTraverser(u, v);
-			traverser.traverseArcs(this, u);
+			traverser.traverseEdges(this, u);
 			const result:FiniteSet = traverser.walks;
 			calcTable.setResult(walks, args, result);
 			return result;
@@ -254,7 +252,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 			if (r is FiniteSet)
 				return r as FiniteSet;
 			const result:MutableSet = new HashSet();
-			for each (var arc:FiniteList in arcs)
+			for each (var edge:FiniteCollection in arcs)
 				if (arc.getMember(0) == v)
 					result.add(arc);
 			calcTable.setResult(arcsFrom, args, result);
@@ -267,7 +265,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 			if (r is FiniteSet)
 				return r as FiniteSet;
 			const result:MutableSet = new HashSet();
-			for each (var arc:FiniteList in arcs)
+			for each (var edge:FiniteCollection in arcs)
 				if (arc.getMember(1) == v)
 					result.add(arc);
 			calcTable.setResult(arcsTo, args, result);
@@ -322,7 +320,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 			if (r is FiniteSet)
 				return r as FiniteSet;
 			const result:MutableSet = new HashSet();
-			for each (var arc:FiniteList in arcs)
+			for each (var edge:FiniteCollection in arcs)
 				if (v == arc.getMember(1))
 					result.add(arc.getMember(0));
 			calcTable.setResult(directPredecessors, args, result);
@@ -335,7 +333,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 			if (r is FiniteSet)
 				return r as FiniteSet;
 			const result:MutableSet = new HashSet();
-			for each (var arc:FiniteList in arcs)
+			for each (var edge:FiniteCollection in arcs)
 				if (v == arc.getMember(0))
 					result.add(arc.getMember(1));
 			calcTable.setResult(directSuccessors, args, result);
@@ -350,7 +348,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 			const arcsTo:FiniteSet = this.arcsTo(v);
 			if (!arcs.empty)
 			{
-				var arc:FiniteList;
+				var edge:FiniteCollection;
 				for each (arc in arcsTo)
 					if (arc.getMember(0) == u)
 					{
@@ -392,7 +390,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 			if (r is FiniteSet)
 				return r as FiniteSet;
 			var result:FiniteSet = HashSet.createSingleton(v);
-			for each (var arc:FiniteList in arcsTo(v))
+			for each (var edge:FiniteCollection in arcsTo(v))
 				result = result.union(predecessors(arc.getMember(0))) as FiniteSet;
 			calcTable.setResult(predecessors, args, result);
 			return result;
@@ -404,7 +402,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 			if (r is FiniteSet)
 				return r as FiniteSet;
 			var result:FiniteSet = HashSet.createSingleton(v);
-			for each (var arc:FiniteList in arcsFrom(v))
+			for each (var edge:FiniteCollection in arcsFrom(v))
 				result = result.union(successors(arc.getMember(1))) as FiniteSet;
 			calcTable.setResult(successors, args, result);
 			return result;
@@ -418,7 +416,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 			if (!precedes(u, v))
 				return EmptySet.INSTANCE;
 			const paths:MutableSet /* .<Walk> */ = new HashSet();
-			for each (var arc:FiniteList in arcsFrom(u))
+			for each (var edge:FiniteCollection in arcsFrom(u))
 			{
 				var tail:Object = arc.getMember(1);
 				if (tail == v)
@@ -434,7 +432,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 			return paths;
 		}
 		
-		public function branchAncestor(internalSet:FiniteSet, externalSet:FiniteSet):FiniteSet
+		public function branchCladogen(internalSet:FiniteSet, externalSet:FiniteSet):FiniteSet
 		{
 			const commonPredecessorsInternal:FiniteSet = commonPredecessors(internalSet);
 			if (commonPredecessorsInternal.empty)
@@ -546,13 +544,13 @@ package a3lbmonkeybrain.calculia.collections.graphs
 			calcTable.setResult(minimal, args, result);
 			return result;
 		}
-		public function nodeAncestor(s:FiniteSet):FiniteSet
+		public function nodeCladogen(s:FiniteSet):FiniteSet
 		{
 			return maximal(commonPredecessors(s));
 		}
 		public function nodeClade(s:FiniteSet):FiniteSet
 		{
-			return allSuccessors(nodeAncestor(s));
+			return allSuccessors(nodeCladogen(s));
 		}
 		public function comemberPredecessors(comembers:FiniteSet, successors:FiniteSet):FiniteSet
 		{
@@ -619,13 +617,15 @@ import a3lbmonkeybrain.brainstem.collections.HashSet;
 import a3lbmonkeybrain.brainstem.collections.MutableList;
 import a3lbmonkeybrain.brainstem.collections.MutableSet;
 import a3lbmonkeybrain.brainstem.collections.VectorList;
-import a3lbmonkeybrain.calculia.collections.graphs.AbstractDirectedGraphTraverser;
-import a3lbmonkeybrain.calculia.collections.graphs.DirectedGraph;
+import a3lbmonkeybrain.calculia.collections.graphs.AbstractGraphTraverser;
+import a3lbmonkeybrain.calculia.collections.graphs.Digraph;
 import a3lbmonkeybrain.calculia.collections.graphs.VectorWalk;
 import a3lbmonkeybrain.calculia.collections.graphs.Walk;
 import flash.errors.IllegalOperationError;
+import a3lbmonkeybrain.calculia.collections.graphs.GraphWeight;
+import a3lbmonkeybrain.brainstem.collections.FiniteCollection;
 
-final class ConnectionTraverser extends AbstractDirectedGraphTraverser
+final class ConnectionTraverser extends AbstractGraphTraverser
 {
 	private var _connected:Boolean = false;
 	private var target:Object;
@@ -638,10 +638,10 @@ final class ConnectionTraverser extends AbstractDirectedGraphTraverser
 	{
 		return _connected;
 	}
-	override protected function moveFrom(arc:FiniteList, vertex:Object) : void
+	override protected function moveFrom(edge:FiniteCollection, vertex:Object) : void
 	{
 	}
-	override protected function moveTo(arc:FiniteList, vertex:Object) : Boolean
+	override protected function moveTo(edge:FiniteCollection, vertex:Object) : Boolean
 	{
 		if (_connected)
 			return false;
@@ -653,7 +653,7 @@ final class ConnectionTraverser extends AbstractDirectedGraphTraverser
 		return true;
 	}
 }
-final class DistanceTraverser extends AbstractDirectedGraphTraverser
+final class DistanceTraverser extends AbstractGraphTraverser
 {
 	private const distances:MutableSet = new HashSet();
 	private var currentDistance:uint = 0;
@@ -675,11 +675,11 @@ final class DistanceTraverser extends AbstractDirectedGraphTraverser
 				d = distance;
 		return d;
 	}
-	override protected function moveFrom(arc:FiniteList, vertex:Object) : void
+	override protected function moveFrom(edge:FiniteCollection, vertex:Object) : void
 	{
 		--currentDistance;
 	}
-	override protected function moveTo(arc:FiniteList, vertex:Object) : Boolean
+	override protected function moveTo(edge:FiniteCollection, vertex:Object) : Boolean
 	{
 		++currentDistance;
 		if (vertex == target)
@@ -691,7 +691,7 @@ final class DistanceTraverser extends AbstractDirectedGraphTraverser
 		return true;
 	}
 }
-final class WalksTraverser extends AbstractDirectedGraphTraverser
+final class WalksTraverser extends AbstractGraphTraverser
 {
 	private const _walks:MutableSet = new HashSet();
 	private const currentWalk:Vector.<FiniteList> = new Vector.<FiniteList>();
@@ -707,13 +707,13 @@ final class WalksTraverser extends AbstractDirectedGraphTraverser
 	{
 		return _walks;
 	}
-	override protected function moveFrom(arc:FiniteList, vertex:Object) : void
+	override protected function moveFrom(edge:FiniteCollection, vertex:Object) : void
 	{
 		currentWalk.pop();
 	}
-	override protected function moveTo(arc:FiniteList, vertex:Object) : Boolean
+	override protected function moveTo(edge:FiniteCollection, vertex:Object) : Boolean
 	{
-		currentWalk.push(arc);
+		currentWalk.push(edge);
 		if (vertex == target)
 		{
 			const walk:Walk = VectorWalk.createWalkFromArcs(source, currentWalk);
@@ -724,15 +724,17 @@ final class WalksTraverser extends AbstractDirectedGraphTraverser
 		return true;
 	}
 }
-final class WeightedDistanceTraverser extends AbstractDirectedGraphTraverser
+final class WeightedDistanceTraverser extends AbstractGraphTraverser
 {
 	private const distances:MutableSet = new HashSet();
 	private var currentDistance:Number = 0.0;
 	private var target:Object;
-	public function WeightedDistanceTraverser(target:Object)
+	private var weight:GraphWeight;
+	public function WeightedDistanceTraverser(target:Object, weight:GraphWeight)
 	{
 		super();
 		this.target = target;
+		this.weight = weight;
 	}
 	public function get minimumDistance():Number
 	{
@@ -746,22 +748,21 @@ final class WeightedDistanceTraverser extends AbstractDirectedGraphTraverser
 				d = distance;
 		return d;
 	}
-	override protected function moveFrom(arc:FiniteList, vertex:Object) : void
+	override protected function moveFrom(edge:FiniteCollection, vertex:Object) : void
 	{
-		const weight:Number = Number(arc.getMember(2));
-		currentDistance -= weight;
+		currentDistance -= weight.getWeight(edge);
 	}
-	override protected function moveTo(arc:FiniteList, vertex:Object) : Boolean
+	override protected function moveTo(edge:FiniteCollection, vertex:Object) : Boolean
 	{
-		const weight:Number = Number(arc.getMember(2));
-		if (isNaN(weight))
+		const w:Number = weight.getWeight(edge)
+		if (isNaN(w))
 			return false;
 		if (vertex == target)
 		{
-			distances.add(currentDistance + weight);
+			distances.add(currentDistance + w);
 			return false;
 		}
-		currentDistance += weight;
+		currentDistance += w;
 		return true;
 	}
 }

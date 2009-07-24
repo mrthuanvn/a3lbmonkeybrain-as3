@@ -7,22 +7,16 @@ package a3lbmonkeybrain.calculia.collections.graphs
 	public class ArcFactory
 	{
 		protected const arcs:Dictionary = new Dictionary();
-		public function create(head:Object, tail:Object, weight:Number = NaN):FiniteList
+		public function create(head:Object, tail:Object):Arc
 		{
 			var headDictionary:* = arcs[head];
 			if (headDictionary == undefined)
 				arcs[head] = headDictionary = new Dictionary();
-			var tailDictionary:* = headDictionary[tail];
-			if (tailDictionary == undefined)
-				headDictionary[tail] = tailDictionary = new Dictionary();
-			var result:* = tailDictionary[weight];
-			if (!(result is FiniteList))
-			{
-				tailDictionary[weight] = result = isNaN(weight)
-					? new Arc(head, tail)
-					: new WeightedArc(head, tail, weight);
-			}
-			return result as FiniteList;
+			var result:* = headDictionary[tail];
+			if (result is Arc)
+				return result as Arc;
+			headDictionary[tail] = result = new Arc(head, tail);
+			return result as Arc;
 		}
 	}
 }

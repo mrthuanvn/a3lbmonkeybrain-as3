@@ -168,23 +168,23 @@ package a3lbmonkeybrain.calculia.collections.graphs
 			var inSet:FiniteSet = HashSet.fromObject([10]);
 			var outSet:FiniteSet = HashSet.fromObject([11]);
 			var expected:FiniteSet = HashSet.fromObject([10]);
-			var ancestor:FiniteSet = network.branchAncestor(inSet, outSet);
+			var ancestor:FiniteSet = network.branchCladogen(inSet, outSet);
 			assertTrue(expected.equals(ancestor));
 			
 			outSet = HashSet.fromObject([3, 6]);
 			expected = HashSet.fromObject([8]);
-			ancestor = network.branchAncestor(inSet, outSet);
+			ancestor = network.branchCladogen(inSet, outSet);
 			assertTrue(expected.equals(ancestor));
 			
 			inSet = HashSet.fromObject([4, 6]);
 			outSet = HashSet.fromObject([3]);
-			ancestor = network.branchAncestor(inSet, outSet);
+			ancestor = network.branchCladogen(inSet, outSet);
 			assertTrue(ancestor.empty);
 			
 			inSet = HashSet.fromObject([3, 4]);
 			outSet = HashSet.fromObject([6]);
 			expected = HashSet.fromObject([2, 5]);
-			ancestor = network.branchAncestor(inSet, outSet);
+			ancestor = network.branchCladogen(inSet, outSet);
 			assertTrue(expected.equals(ancestor));
 		}
 		public function testBranchClade():void
@@ -401,22 +401,22 @@ package a3lbmonkeybrain.calculia.collections.graphs
 			
 			specifiers = HashSet.fromObject([3, 4]);
 			expected = HashSet.fromObject([2, 5]);
-			ancestor = network.nodeAncestor(specifiers);
+			ancestor = network.nodeCladogen(specifiers);
 			assertTrue(expected.equals(ancestor));
 			
 			specifiers = HashSet.fromObject([3, 6]);
 			expected = HashSet.fromObject([1]);
-			ancestor = network.nodeAncestor(specifiers);
+			ancestor = network.nodeCladogen(specifiers);
 			assertTrue(expected.equals(ancestor));
 			
 			specifiers = HashSet.fromObject([8, 9]);
 			expected = HashSet.fromObject([8]);
-			ancestor = network.nodeAncestor(specifiers);
+			ancestor = network.nodeCladogen(specifiers);
 			assertTrue(expected.equals(ancestor));
 			
 			specifiers = HashSet.fromObject([3, 6, 10]);
 			expected = HashSet.fromObject([0]);
-			ancestor = network.nodeAncestor(specifiers);
+			ancestor = network.nodeCladogen(specifiers);
 			assertTrue(expected.equals(ancestor));
 		}
 		public function testNodeClade():void

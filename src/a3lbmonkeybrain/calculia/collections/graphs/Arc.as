@@ -15,7 +15,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 	
 	use namespace flash_proxy;
 	
-	public class Arc extends Proxy implements FiniteList
+	public final class Arc extends Proxy implements FiniteList
 	{
 		protected var _head:Object;
 		protected var _tail:Object;
@@ -25,6 +25,10 @@ package a3lbmonkeybrain.calculia.collections.graphs
 			_head = head;
 			_tail = tail;
 		}
+		public function get empty():Boolean
+		{
+			return false;
+		}
 		public function get head():Object
 		{
 			return _head;
@@ -33,25 +37,17 @@ package a3lbmonkeybrain.calculia.collections.graphs
 		{
 			throw new IllegalOperationError("Arcs cannot be singletons.");
 		}
-		public function get tail():Object
-		{
-			return _tail;
-		}
 		public function get size():uint
 		{
 			return 2;
 		}
-		public function get empty():Boolean
+		public function get tail():Object
 		{
-			return false;
+			return _tail;
 		}
 		override flash_proxy function deleteProperty(name:*):Boolean
 		{
 			throw new IllegalOperationError();
-		}
-		public function diff(subtrahend:Object):Set
-		{
-			return HashSet.fromObject(this).diff(subtrahend);
 		}
 		public function every(test:Function, thisObject:*=null):Boolean
 		{
@@ -106,10 +102,6 @@ package a3lbmonkeybrain.calculia.collections.graphs
 		{
 			return name == 0 || name == 1;
 		}
-		public function intersect(operand:Object):Set
-		{
-			return HashSet.fromObject(this).intersect(operand);
-		}
 		public function map(mapper:Function, thisObject:* = null):FiniteCollection
 		{
 			return new Arc(mapper.apply(thisObject, [_head]), mapper.apply(thisObject, [_tail]));
@@ -142,23 +134,9 @@ package a3lbmonkeybrain.calculia.collections.graphs
 	    		return _tail;
 	    	return undefined;
 	    }
-		public function prSubsetOf(value:Object):Boolean
-		{
-			return HashSet.fromObject(this).prSubsetOf(value);
-		}
 		public function some(test:Function, thisObject:*=null):Boolean
 		{
 			return test.apply(thisObject, [_head]) || test.apply(thisObject, [_tail]);
-		}
-		public function subsetOf(value:Object):Boolean
-		{
-			if (value is Collection)
-			{
-				if (Collection(value).empty)
-					return false;
-				return Collection(value).has(_head) && Collection(value).has(_tail); 
-			}
-			return subsetOf(HashSet.fromObject(value));
 		}
 		public function toArray():Array
 		{
@@ -171,10 +149,6 @@ package a3lbmonkeybrain.calculia.collections.graphs
 		public function toString():String 
 		{
 			return "(" + _head + ", " + _tail + ")";
-		}
-		public function union(operand:Object):Set
-		{
-			return HashSet.fromObject(this).union(operand);
 		}
 	}
 }
