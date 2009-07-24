@@ -1,6 +1,6 @@
 package a3lbmonkeybrain.calculia.collections.graphs.importers
 {
-	import a3lbmonkeybrain.calculia.collections.graphs.DirectedGraph;
+	import a3lbmonkeybrain.calculia.collections.graphs.Digraph;
 	import a3lbmonkeybrain.calculia.collections.graphs.exporters.TextCladogramExporter;
 	
 	import flash.utils.ByteArray;
@@ -10,7 +10,7 @@ package a3lbmonkeybrain.calculia.collections.graphs.importers
 	public class NewickImporterTest extends TestCase
 	{
 		private var exporter:TextCladogramExporter;
-		private var graph:DirectedGraph;
+		private var graph:Digraph;
 		private var importer:NewickImporter;
 		public function NewickImporterTest(methodName:String=null)
 		{
@@ -63,7 +63,7 @@ package a3lbmonkeybrain.calculia.collections.graphs.importers
 		{
 			var bytes:ByteArray = new ByteArray();
 			bytes.writeUTFBytes(s);
-			graph = importer.importGraph(bytes) as DirectedGraph;
+			graph = importer.importGraph(bytes) as Digraph;
 			bytes = exporter.export(graph);
 			trace("------------------");
 			bytes.position = 0;

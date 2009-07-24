@@ -3,7 +3,7 @@ package a3lbmonkeybrain.calculia.collections.graphs.exporters
 	import a3lbmonkeybrain.brainstem.collections.FiniteCollection;
 	import a3lbmonkeybrain.brainstem.collections.FiniteList;
 	import a3lbmonkeybrain.brainstem.filter.isNonEmptyString;
-	import a3lbmonkeybrain.calculia.collections.graphs.DirectedGraph;
+	import a3lbmonkeybrain.calculia.collections.graphs.Digraph;
 	import a3lbmonkeybrain.calculia.collections.graphs.Graph;
 	
 	import flash.utils.ByteArray;
@@ -29,7 +29,7 @@ package a3lbmonkeybrain.calculia.collections.graphs.exporters
 			const bytes:ByteArray = new ByteArray();
 			try
 			{
-				if (g is DirectedGraph)
+				if (g is Digraph)
 					bytes.writeUTFBytes("strict di");
 				bytes.writeUTFBytes("graph");
 				if (isNonEmptyString(graphName))

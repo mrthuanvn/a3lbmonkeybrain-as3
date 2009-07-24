@@ -1,8 +1,9 @@
 package a3lbmonkeybrain.calculia.collections.domains
 {
+	import a3lbmonkeybrain.brainstem.collections.FiniteCollection;
 	import a3lbmonkeybrain.brainstem.collections.Set;
-	import a3lbmonkeybrain.calculia.collections.sets.AbstractSet;
 	import a3lbmonkeybrain.brainstem.math.MathImplError;
+	import a3lbmonkeybrain.calculia.collections.sets.AbstractSet;
 	
 	import flash.utils.flash_proxy;
 	
@@ -10,66 +11,62 @@ package a3lbmonkeybrain.calculia.collections.domains
 	
 	public final class CartesianProductSet extends AbstractSet
 	{
-		private var sets:Array /* .<Set> */;
-		public function CartesianProductSet(sets:Array /* .<Set> */)
+		private var sets:Vector.<Set> /* .<Set> */;
+		public function CartesianProductSet(sets:Object /* .<Set> */)
 		{
 			super();
-			this.sets = [];
-			var n:int = sets.length;
-			for (var i:int = 0; i < n; ++i)
+			const setsVector = new Vector.<Set>();
+			var n:uint = 0;
+			for each (var s:Set in sets)
 			{
-				if (sets[i] is Set)
-					this.sets.push(sets[i]);
+				setsVector.push(s):
+				++n;
 			}
-			if (!(this.sets.length > 1))
-				throw new ArgumentError("Invalid number of operands (" + this.sets.length
-					+ ") for a Cartesian product: " + this.sets);
+			this.sets = new Vector.<Set>(n);
+			for (var i:uint = 0; i < n; ++i)
+				this.sets[i] = setsVector[i];
 		}
 		override public function get empty():Boolean
 		{
 			if (sets.length == 0)
 				return true;
 			for each (var s:Set in sets)
-			{
 				if (s.empty)
 					return true;
-			}
 			return false;
 		}
 		override public function equals(value:Object):Boolean
 		{
 			if (value is CartesianProductSet)
 			{
-				var n:int = sets.length;
+				const n:int = sets.length;
 				if (CartesianProductSet(value).sets.length == n)
 				{
 					for (var i:int = 0; i < n; ++i)
-					{
 						if (!Set(sets[i]).equals(CartesianProductSet(value).sets[i]))
 							return false;
-					}
 					return true;
 				}
 				return false;
 			}
 			if (isKnownSet(value))
 				return false;
-			throw new MathImplError("Cannot resolve subset relation of some nonfinite sets.");
+			throw new MathImplError("Cannot resolve equality of some nonfinite sets.");
 		}
 		override flash_proxy function hasProperty(name:*):Boolean
 		{
-			if (name is Array)
+			if (name is Array || name is Vector)
 			{
-				var n:int = sets.length;
-				if ((name as Array).length != n)
+				var n:uint = sets.length;
+				if (name.length != n)
 					return false;
-				for (var i:int = 0; i < n; ++i)
-				{
-					if (sets[i][name[i]] == undefined)
+				for (var i:uint = 0; i < n; ++i)
+					if (!Set(sets[i]).has(name[i]))
 						return false;
-				}
 				return true;
 			}
+			else if (name is FiniteCollection)
+				return hasProperty(FiniteCollection(name).toVector());
 			return false;
 		}
 		private static function isKnownSet(value:Object):Boolean
@@ -83,14 +80,10 @@ package a3lbmonkeybrain.calculia.collections.domains
 			{
 				var n:int = sets.length;
 				if (CartesianProductSet(value).sets.length == n)
-				{
 					for (var i:int = 0; i < n; ++i)
-					{
 						if (!Set(sets[i]).prSubsetOf(CartesianProductSet(value).sets[i]))
 							return false;
-					}
 					return true;
-				}
 				return false;
 			}
 			if (isKnownSet(value))
@@ -105,10 +98,8 @@ package a3lbmonkeybrain.calculia.collections.domains
 				if (CartesianProductSet(value).sets.length == n)
 				{
 					for (var i:int = 0; i < n; ++i)
-					{
 						if (!Set(sets[i]).subsetOf(CartesianProductSet(value).sets[i]))
 							return false;
-					}
 					return true;
 				}
 				return false;

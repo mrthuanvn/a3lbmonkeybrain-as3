@@ -6,7 +6,6 @@ package a3lbmonkeybrain.calculia.collections.graphs
 	import a3lbmonkeybrain.brainstem.collections.FiniteSet;
 	import a3lbmonkeybrain.brainstem.collections.HashSet;
 	import a3lbmonkeybrain.brainstem.collections.MutableCollection;
-	import a3lbmonkeybrain.brainstem.collections.Set;
 	import a3lbmonkeybrain.brainstem.collections.VectorList;
 	import a3lbmonkeybrain.brainstem.errors.AbstractMethodError;
 	
@@ -152,6 +151,14 @@ package a3lbmonkeybrain.calculia.collections.graphs
 		override public final function toVector():Vector.<Object>
 		{
 			return Vector.<Object>([vertices, edges]);
+		}
+		public function weightedBall(v:Object, d:Number, weight:GraphWeight):FiniteSet
+		{
+			throw new AbstractMethodError();
+		}
+		public function weightedDistance(u:Object, v:Object, weight:GraphWeight):Number
+		{
+			throw new AbstractMethodError();
 		}
 	}
 }
