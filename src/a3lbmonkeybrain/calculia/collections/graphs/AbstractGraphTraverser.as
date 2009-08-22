@@ -21,7 +21,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 		{
 			throw new AbstractMethodError();
 		}
-		public function traverseEdges(graph:Graph, start:Object):void
+		public function traverseEdges(graph:UndirectedGraph, start:Object):void
 		{
 			var edge:FiniteSet;
 			var next:Object;
