@@ -5,9 +5,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 	
 	public interface Graph extends FiniteList
 	{
-		function get connected():Boolean;
 		function get vertices():FiniteSet;
-		function areConnected(u:Object, v:Object):Boolean;
 		function prSubgraphOf(value:Graph):Boolean;
 		function subgraphOf(value:Graph):Boolean;
 	}
