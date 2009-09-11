@@ -66,6 +66,9 @@
 			public static function get calculiaTest():Test
 			{
 				Reals;
+				CartesianProductSet;
+				HashGraph;
+				SimpleArc;
 				AbstractOperation;
 				const suite:TestSuite = new TestSuite();
 				suite.addTestSuite(AngleTest);
