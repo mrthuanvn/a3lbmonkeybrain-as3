@@ -5,7 +5,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 	import a3lbmonkeybrain.brainstem.collections.HashSet;
 	import a3lbmonkeybrain.brainstem.collections.MutableSet;
 	
-	public final class HashGraph implements MutableWeightedGraph
+	public final class HashGraph implements MutableGraph
 	{
 		private const _edges:MutableSet = new HashSet();
 		private const _vertices:MutableSet = new HashSet();
@@ -18,7 +18,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 		public function get connected():Boolean
 		{
 			for each (var u:Object in _vertices)
-				for each var (v:Object in _vertices)
+				for each (var v:Object in _vertices)
 					if (!areConnected(u, v))
 						return false;
 			return true;
@@ -30,6 +30,10 @@ package a3lbmonkeybrain.calculia.collections.graphs
 		public function get vertices():FiniteSet
 		{
 			return _vertices;
+		}
+		public function addVertex(vertex:Object):void
+		{
+			_vertices.add(vertex);
 		}
 		public function areConnected(u:Object, v:Object):Boolean
 		{
@@ -119,6 +123,15 @@ package a3lbmonkeybrain.calculia.collections.graphs
 			return false;
 		}
 		
+		public function removeVertex(vertex:Object):void
+		{
+			if (_vertices.has(vertex))
+			{
+				_vertices.remove(vertex);
+				// :TODO: remove incident edges
+			}
+		}
+		
 		public function toArray():Array
 		{
 			return null;
@@ -130,6 +143,12 @@ package a3lbmonkeybrain.calculia.collections.graphs
 		}
 	}
 }
+import a3lbmonkeybrain.calculia.collections.graphs.AbstractGraphTraverser;
+import a3lbmonkeybrain.brainstem.collections.*;
+import flash.errors.IllegalOperationError;
+import a3lbmonkeybrain.calculia.collections.graphs.Walk;
+import a3lbmonkeybrain.calculia.collections.graphs.VectorWalk;
+
 final class ConnectionTraverser extends AbstractGraphTraverser
 {
 	private var _connected:Boolean = false;
@@ -143,10 +162,10 @@ final class ConnectionTraverser extends AbstractGraphTraverser
 	{
 		return _connected;
 	}
-	override protected function moveFrom(edge:FiniteSet, vertex:Object) : void
+	override protected function moveFrom(edge:FiniteCollection, vertex:Object) : void
 	{
 	}
-	override protected function moveTo(edge:FiniteSet, vertex:Object) : Boolean
+	override protected function moveTo(edge:FiniteCollection, vertex:Object) : Boolean
 	{
 		if (_connected)
 			return false;
@@ -180,11 +199,11 @@ final class DistanceTraverser extends AbstractGraphTraverser
 				d = distance;
 		return d;
 	}
-	override protected function moveFrom(edge:FiniteSet, vertex:Object) : void
+	override protected function moveFrom(edge:FiniteCollection, vertex:Object) : void
 	{
 		--currentDistance;
 	}
-	override protected function moveTo(edge:FiniteSet, vertex:Object) : Boolean
+	override protected function moveTo(edge:FiniteCollection, vertex:Object) : Boolean
 	{
 		++currentDistance;
 		if (vertex == target)
@@ -199,7 +218,7 @@ final class DistanceTraverser extends AbstractGraphTraverser
 final class WalksTraverser extends AbstractGraphTraverser
 {
 	private const _walks:MutableSet = new HashSet();
-	private const currentWalk:Vector.<FiniteList> = new Vector.<FiniteList>();
+	private const currentWalk:Vector.<FiniteCollection> = new Vector.<FiniteCollection>();
 	private var source:Object;
 	private var target:Object;
 	public function WalksTraverser(source:Object, target:Object)
@@ -212,13 +231,13 @@ final class WalksTraverser extends AbstractGraphTraverser
 	{
 		return _walks;
 	}
-	override protected function moveFrom(edge:FiniteSet, vertex:Object) : void
+	override protected function moveFrom(edge:FiniteCollection, vertex:Object) : void
 	{
 		currentWalk.pop();
 	}
-	override protected function moveTo(edge:FiniteSet, vertex:Object) : Boolean
+	override protected function moveTo(edge:FiniteCollection, vertex:Object) : Boolean
 	{
-		currentWalk.push(arc);
+		currentWalk.push(edge);
 		if (vertex == target)
 		{
 			const walk:Walk = VectorWalk.createWalkFromArcs(source, currentWalk);
@@ -251,14 +270,19 @@ final class WeightedDistanceTraverser extends AbstractGraphTraverser
 				d = distance;
 		return d;
 	}
-	override protected function moveFrom(edge:FiniteSet, vertex:Object) : void
+	override protected function moveFrom(edge:FiniteCollection, vertex:Object) : void
 	{
-		const weight:Number = Number(arc.getMember(2));
-		currentDistance -= weight;
+		if (edge is FiniteList)
+		{
+			const weight:Number = Number(FiniteList(edge).getMember(2));
+			currentDistance -= weight;
+		}
 	}
-	override protected function moveTo(edge:FiniteSet, vertex:Object) : Boolean
+	override protected function moveTo(edge:FiniteCollection, vertex:Object) : Boolean
 	{
-		const weight:Number = Number(arc.getMember(2));
+		if (!(edge is FiniteList))
+			return false;
+		const weight:Number = Number(FiniteList(edge).getMember(2));
 		if (isNaN(weight))
 			return false;
 		if (vertex == target)

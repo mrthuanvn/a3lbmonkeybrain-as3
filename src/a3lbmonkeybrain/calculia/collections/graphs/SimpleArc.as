@@ -37,7 +37,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 		{
 			return _tail;
 		}
-		public function get size():int
+		public function get size():uint
 		{
 			return 2;
 		}
@@ -84,7 +84,7 @@ package a3lbmonkeybrain.calculia.collections.graphs
 			test.apply(thisObject, [_head]);
 			test.apply(thisObject, [_tail]);
 		}
-		public function getMember(index:int):Object
+		public function getMember(index:uint):Object
 		{
 			if (index == 0)
 				return _head;
@@ -161,6 +161,10 @@ package a3lbmonkeybrain.calculia.collections.graphs
 		public function toArray():Array
 		{
 			return [_head, _tail];
+		}
+		public function toVector():Vector.<Object>
+		{
+			return Vector.<Object>([_head, _tail]);
 		}
 		public function toString():String 
 		{

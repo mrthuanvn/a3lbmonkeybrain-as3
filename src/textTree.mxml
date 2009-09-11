@@ -13,7 +13,7 @@
 			import a3lbmonkeybrain.brainstem.collections.FiniteSet;
 			import a3lbmonkeybrain.brainstem.collections.HashSet;
 			import a3lbmonkeybrain.brainstem.collections.MutableSet;
-			import a3lbmonkeybrain.calculia.collections.graphs.AcyclicGraph;
+			import a3lbmonkeybrain.calculia.collections.graphs.Graph;
 			import a3lbmonkeybrain.calculia.collections.graphs.Graph;
 			import a3lbmonkeybrain.calculia.collections.graphs.importers.NewickImporter;
 			import a3lbmonkeybrain.calculia.collections.graphs.exporters.TextCladogramExporter;
@@ -23,7 +23,7 @@
 			private const exporter:TextCladogramExporter = new TextCladogramExporter();
 			private const importer:NewickImporter = new NewickImporter();
 			
-			private var graph:AcyclicGraph;
+			private var graph:Graph;
 
 			private function get newickBytes():ByteArray
 			{
@@ -52,7 +52,7 @@
 			{
 				try
 				{
-					graph = importer.importGraph(newickBytes) as AcyclicGraph;
+					graph = importer.importGraph(newickBytes) as Graph;
 					const bytes:ByteArray = exporter.export(graph);
 					bytes.position = 0;
 					treeOutput.text = bytes.readUTFBytes(bytes.length);
@@ -111,7 +111,7 @@
 			{
 				try
 				{
-					graph = importer.importGraph(newickBytes) as AcyclicGraph;
+					graph = importer.importGraph(newickBytes) as Graph;
 					const bytes:ByteArray = exporter.export(graph);
 					bytes.position = 0;
 					treeOutput.text = bytes.readUTFBytes(bytes.length);
@@ -129,7 +129,7 @@
 			{
 				try
 				{
-					graph = importer.importGraph(newickBytes) as AcyclicGraph;
+					graph = importer.importGraph(newickBytes) as Graph;
 					const bytes:ByteArray = exporter.export(graph);
 					bytes.position = 0;
 					const fileRef:FileReference = new FileReference();

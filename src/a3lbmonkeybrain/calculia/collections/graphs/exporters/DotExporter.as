@@ -47,7 +47,7 @@ package a3lbmonkeybrain.calculia.collections.graphs.exporters
 					bytes.writeUTFBytes("];\n");
 				}
 				// :TODO: weights
-				for each (var edge:FiniteCollection in g.edges)
+				for each (var edge:FiniteCollection in g.getMember(1))
 				{
 					bytes.writeUTFBytes("\t");
 					if (edge is FiniteList)

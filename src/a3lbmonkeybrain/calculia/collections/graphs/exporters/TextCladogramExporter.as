@@ -6,7 +6,7 @@ package a3lbmonkeybrain.calculia.collections.graphs.exporters
 	import a3lbmonkeybrain.brainstem.collections.HashSet;
 	import a3lbmonkeybrain.brainstem.collections.MutableSet;
 	import a3lbmonkeybrain.brainstem.strings.clean;
-	import a3lbmonkeybrain.calculia.collections.graphs.AcyclicGraph;
+	import a3lbmonkeybrain.calculia.collections.graphs.Graph;
 	import a3lbmonkeybrain.calculia.collections.graphs.Graph;
 	
 	import flash.utils.ByteArray;
@@ -15,7 +15,7 @@ package a3lbmonkeybrain.calculia.collections.graphs.exporters
 	{
 		private const siblingsLeft:Vector.<Boolean> = new Vector.<Boolean>();
 		private var bytes:ByteArray;
-		private var dag:AcyclicGraph;
+		private var dag:Graph;
 		private var unnamedIndex:uint;
 		public var vertexCompareFunction:Function;
 		private var writtenVertices:MutableSet;
@@ -25,16 +25,16 @@ package a3lbmonkeybrain.calculia.collections.graphs.exporters
 		}
 		override public function export(g:Graph) : ByteArray
 		{
-			if (!(g is AcyclicGraph))
+			if (!(g is Graph))
 				throw new ArgumentError("Only acyclic graphs can be written as text cladograms.");
 			var result:ByteArray = new ByteArray();
 			unnamedIndex = 1;
 			try
 			{
 				bytes = result;
-				dag = g as AcyclicGraph;
+				dag = g as Graph;
 				writtenVertices = new HashSet();
-				const minimal:FiniteSet = dag.minimal(dag.vertices);
+				const minimal:FiniteSet = null;//dag.minimal(dag.vertices); :TODO: restore
 				if (!minimal.empty)
 					for each (var v:Object in minimal)
 						writeTree(ArrayList.fromObject([null, v]));
@@ -75,10 +75,10 @@ package a3lbmonkeybrain.calculia.collections.graphs.exporters
 			const ancestor:Object = arc.getMember(1);
 			var name:String = clean(applyStringFunction(vertexLabelFunction, ancestor));
 			if (name == "") name = null;
-			const multipleParents:Boolean = dag.arcsTo(ancestor).size > 1;
+			const multipleParents:Boolean = false; // :TODO: REstore //dag.arcsTo(ancestor).size > 1;
 			if (name == null && multipleParents)
 				name = "cl. innom. #" + (unnamedIndex++);
-			var childArcs:Vector.<Object> = dag.arcsFrom(ancestor).toVector();
+			var childArcs:Vector.<Object> = null; // :TODO: REstore //dag.arcsFrom(ancestor).toVector();
 			if (name == null)
 			{
 				if (childArcs.length == 0)

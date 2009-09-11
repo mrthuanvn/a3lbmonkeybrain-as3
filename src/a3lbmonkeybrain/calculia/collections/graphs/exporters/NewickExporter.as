@@ -5,7 +5,7 @@ package a3lbmonkeybrain.calculia.collections.graphs.exporters
 	import a3lbmonkeybrain.brainstem.collections.HashSet;
 	import a3lbmonkeybrain.brainstem.collections.MutableSet;
 	import a3lbmonkeybrain.brainstem.strings.clean;
-	import a3lbmonkeybrain.calculia.collections.graphs.AcyclicGraph;
+	import a3lbmonkeybrain.calculia.collections.graphs.Graph;
 	import a3lbmonkeybrain.calculia.collections.graphs.Graph;
 	
 	import flash.utils.ByteArray;
@@ -15,7 +15,7 @@ package a3lbmonkeybrain.calculia.collections.graphs.exporters
 	{
 		private static const QUOTE_NEEDED:RegExp = /[\s,\(\):]/g;
 		private var bytes:ByteArray;
-		private var dag:AcyclicGraph;
+		private var dag:Graph;
 		private var nameVertexMap:Dictionary;
 		private var vertexNameMap:Dictionary;
 		private var writtenVertices:MutableSet;
@@ -34,7 +34,7 @@ package a3lbmonkeybrain.calculia.collections.graphs.exporters
 			if (!writtenVertices.has(v))
 			{
 				writtenVertices.add(v);
-				const childrenArcs:FiniteSet = dag.arcsFrom(v);
+				const childrenArcs:FiniteSet = null; // :TODO: REstore //dag.arcsFrom(v);
 				if (!childrenArcs.empty)
 				{
 					bytes.writeUTFBytes("(");
@@ -63,7 +63,7 @@ package a3lbmonkeybrain.calculia.collections.graphs.exporters
 				approvedName = true;
 			if (name == "")
 				name = null;
-			if (name == null && dag.arcsTo(name).size > 1)
+			if (name == null && true) // :TODO: REstore //&& dag.arcsTo(name).size > 1)
 				name = "innom";
 			if (name != null)
 			{
@@ -81,17 +81,17 @@ package a3lbmonkeybrain.calculia.collections.graphs.exporters
 		}
 		override public function export(g:Graph) : ByteArray
 		{
-			if (!(g is AcyclicGraph))
+			if (!(g is Graph))
 				throw new ArgumentError("Only acyclic graphs can be written as Newick tree strings.");
 			var result:ByteArray = new ByteArray();
 			try
 			{
 				bytes = result;
-				dag = g as AcyclicGraph;
+				dag = g as Graph;
 				writtenVertices = new HashSet();
 				nameVertexMap = new Dictionary();
 				vertexNameMap = new Dictionary();
-				const minimal:FiniteSet = dag.minimal(dag.vertices);
+				const minimal:FiniteSet = null; // :TODO: REstore //dag.minimal(dag.vertices);
 				if (!minimal.empty)
 				{
 					if (minimal.size > 1)

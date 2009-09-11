@@ -3,14 +3,14 @@ package a3lbmonkeybrain.calculia.collections.graphs.importers
 	import a3lbmonkeybrain.brainstem.strings.clean;
 	import a3lbmonkeybrain.calculia.collections.graphs.ArcFactory;
 	import a3lbmonkeybrain.calculia.collections.graphs.Graph;
-	import a3lbmonkeybrain.calculia.collections.graphs.HashNetwork;
+	import a3lbmonkeybrain.calculia.collections.graphs.HashGraph;
 	
 	import flash.utils.ByteArray;
 
 	public final class NewickImporter implements GraphImporter
 	{
 		public var arcFactory:ArcFactory;
-		private var graph:HashNetwork;
+		private var graph:HashGraph;
 		private var vertices:Vector.<Object>;
 		public function NewickImporter(arcFactory:ArcFactory = null)
 		{
@@ -43,7 +43,7 @@ package a3lbmonkeybrain.calculia.collections.graphs.importers
 		}
 		public function importGraph(bytes:ByteArray):Graph
 		{
-			var result:HashNetwork = new HashNetwork(arcFactory);
+			var result:HashGraph = new HashGraph(); // :TODO: REstore //arcFactory);
 			try
 			{
 				bytes.position = 0;
@@ -95,7 +95,7 @@ package a3lbmonkeybrain.calculia.collections.graphs.importers
 			var vertex:Object = readVertexLabel(bytes);
 			if (children)
 				while (children.length != 0)
-					graph.createWeightedEdge(vertex, children.pop(), weights.pop());
+					null; // :TODO: REstore //graph.createWeightedEdge(vertex, children.pop(), weights.pop());
 			return vertex;
 		}
 		private function readVertexLabel(bytes:ByteArray):Object

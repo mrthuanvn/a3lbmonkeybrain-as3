@@ -15,11 +15,11 @@ package a3lbmonkeybrain.calculia.collections.domains
 		public function CartesianProductSet(sets:Object /* .<Set> */)
 		{
 			super();
-			const setsVector = new Vector.<Set>();
+			const setsVector:Vector.<Set> = new Vector.<Set>();
 			var n:uint = 0;
 			for each (var s:Set in sets)
 			{
-				setsVector.push(s):
+				setsVector.push(s);
 				++n;
 			}
 			this.sets = new Vector.<Set>(n);
